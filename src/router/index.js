@@ -16,8 +16,8 @@ const routes = [
     component: Layout,
     children: [
       {
+        name: '主页',
         path: 'index',
-        name: 'home',
         component: home,
       },
     ]

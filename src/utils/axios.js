@@ -23,7 +23,7 @@ const codeMessage = {
 }
 
 var Axios = axios.create();
-// Axios.defaults.baseURL = "http://10.0.2.1:5000/"
+Axios.defaults.baseURL = "http://101.37.76.80:9001/os/"
 axios.default.timeOut = 10000;
 // 请求拦截
 Axios.interceptors.request.use(

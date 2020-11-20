@@ -1,9 +1,12 @@
 <template>
-  <a-menu>
-    <a-menu-item v-bind:key="item.value" v-for="item in menuList">{{
-      item.title
-    }}</a-menu-item>
-  </a-menu>
+  <div>
+    <div class="logo">logo</div>
+    <a-menu>
+      <a-menu-item v-bind:key="item.value" v-for="item in menuList">{{
+        item.title
+      }}</a-menu-item>
+    </a-menu>
+  </div>
 </template>
 <script>
 export default {
@@ -25,3 +28,12 @@ export default {
   },
 };
 </script>
+<style lang="less">
+  .logo {
+    height: 50px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>

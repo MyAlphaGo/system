@@ -1,14 +1,18 @@
 <template>
-  <a-layout  class="container">
-    <a-layout-header  class="header bgc">
-      <Nav></Nav>
-    </a-layout-header>
+  <a-layout class="container">
     <a-layout-content class="content">
       <a-layout>
         <a-layout-sider class="bgc sider" breakpoint="lg" collapsed-width="0">
           <Menu></Menu>
         </a-layout-sider>
-        <a-layout-content> <router-view></router-view> </a-layout-content>
+        <a-layout-content>
+          <a-layout-header class="header bgc">
+            <Nav></Nav>
+          </a-layout-header>
+          <div class="main">
+            <router-view></router-view>
+          </div>
+        </a-layout-content>
       </a-layout>
     </a-layout-content>
   </a-layout>
@@ -40,6 +44,11 @@ export default {
     }
     .sider {
       border-right: 1px solid #eaecef;
+    }
+    .main {
+      margin: 20px 20px 0;
+      height: calc(100vh - 70px);
+      background-color: #fff;
     }
   }
   .bgc {

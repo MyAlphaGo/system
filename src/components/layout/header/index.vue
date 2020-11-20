@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <div>logo</div>
     <div>
       <a-dropdown>
         <a-menu slot="overlay" @click="handleMenuClick">
@@ -22,26 +21,23 @@
 <script>
 export default {
   name: "Nav",
-  data(){
-    return {
-
-    }
+  data() {
+    return {};
   },
-  methods:{
-    handleMenuClick(...args){
-      console.log(args)
-    }
-  }
+  methods: {
+    handleMenuClick(...args) {
+      console.log(args);
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
-  .container {
-    display: flex;
-    justify-content: space-between;
-    height: 100%;
-    line-height: 50px;
-  }
+.container {
+  display: flex;
+  justify-content: flex-end;
+  height: 100%;
+  line-height: 50px;
+}
 </style>
 <style lang="less">
-  
 </style>

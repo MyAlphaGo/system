@@ -13,6 +13,8 @@ import {
   Input,
   Select,
   Checkbox,
+  FormModel,
+  Table,
 } from 'ant-design-vue';
 
 Vue.use(Button)
@@ -22,10 +24,11 @@ Vue.use(Dropdown)
 Vue.use(Icon)
 Vue.use(Card)
 Vue.use(Form)
+Vue.use(FormModel)
 Vue.use(Input)
 Vue.use(Select)
 Vue.use(Checkbox)
-
+Vue.use(Table)
 
 Vue.config.productionTip = false
 

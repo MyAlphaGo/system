@@ -56,7 +56,7 @@
                 'remember',
                 {
                   valuePropName: 'checked',
-                  initialValue: true,
+                  initialValue: false,
                 },
               ]"
             >
@@ -87,7 +87,7 @@ export default {
     };
   },
   methods: {
-    login() {
+    login() { //登录
       this.form.validateFields((err, values) => {
         if (!err) {
           localStorage.setItem("userName", values.userName);
@@ -113,7 +113,10 @@ export default {
 
 <style lang="less" scoped>
 .container {
-  background-image: url();
+  background-image: url('../../assets/loginbg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -122,13 +125,14 @@ export default {
   .title {
     font-size: 20px;
     font-weight: 600;
+    color: #fff;
   }
   .login_box {
     width: 350px;
     padding: 20px;
     margin-top: 25px;
     border: 1px solid #eee;
-    // background-color: #fff;
+    background-color: #fff;
   }
 }
 </style>
