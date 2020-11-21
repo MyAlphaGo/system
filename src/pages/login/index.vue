@@ -56,7 +56,7 @@
                 'remember',
                 {
                   valuePropName: 'checked',
-                  initialValue: false,
+                  initialValue: true,
                 },
               ]"
             >
@@ -96,7 +96,10 @@ export default {
           } else {
             localStorage.removeItem("password", values.password);
           }
-          console.log("Received values of form: ", values);
+          this.$store.dispatch('User/login',{
+            userName: values.userName,
+            password: values.password,
+          })
         }
       });
     },

@@ -4,6 +4,8 @@ import Layout from '../components/layout'
 import home from '../pages/home'
 import login from '../pages/login'
 
+import UserList from '../pages/user'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -20,8 +22,25 @@ const routes = [
         path: 'index',
         component: home,
       },
+      {
+        name: '人员信息管理',
+        path: 'user',
+        component: UserList,
+        children: [
+          {
+            name: '人员信息列表',
+            path: 'list',
+            component: UserList
+          },
+          // {
+          //   name: '人员信息列表',
+          //   path: 'list',
+          //   component: import('@/pages/user')
+          // }
+        ]
+      },
     ]
-  }
+  },
 ]
 
 const router = new VueRouter({

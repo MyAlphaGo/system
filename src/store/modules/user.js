@@ -1,4 +1,6 @@
 import { UserService } from '@/api'
+import router from '@/router'
+import { message } from 'ant-design-vue'
 const state = () => ({
   user: {},
   userList: []
@@ -6,32 +8,29 @@ const state = () => ({
 
 // getters
 const getters = {
-  cartProducts: (state, getters, rootState) => {
-    console.log(state, getters, rootState)
-    // return state.items.map(({ id, quantity }) => {
-    //   const product = rootState.products.all.find(product => product.id === id)
-    //   return {
-    //     title: product.title,
-    //     price: product.price,
-    //     quantity
-    //   }
-    // })
-  },
-
-  cartTotalPrice: (state, getters) => {
-    return getters.cartProducts.reduce((total, product) => {
-      return total + product.price * product.quantity
-    }, 0)
-  }
 }
 
 // actions
 const actions = {
   login({ commit, state }, params) {
-    UserService.login(params).then(res => {
-      console.log(1111)
+    UserService.login({
+      work_id: params.userName,
+      password: params.password
+    }).then(res => {
+      if (res?.data) {
+        message.success("登录成功！")
+        router.push('/index')
+        UserService.getUserInfo()
+      } else {
+        message.error('用户名或者密码错误')
+      }
+    }).then(res => {
+      if (res.data) {
+        console.log(res.data)
+        commit('saveCurrentUser', res.data)
+      }
     })
-    commit('saveCurrentUser', params)
+
   },
   createUser({ commit }, params) {
     UserService.createUser(params).then(res => {
@@ -41,7 +40,13 @@ const actions = {
   getLoginInfo({ commit }, params) {
     UserService.getUserList(params).then(res => {
       const { userList } = res.data
-      commit('saveUsers',userList)
+      commit('saveUsers', userList)
+    })
+  },
+  getUserList({ commit }, params) {
+    UserService.getUserList(params).then(res => {
+      const userList = res.data || []
+      commit('saveUsers', userList)
     })
   }
 }
@@ -49,30 +54,11 @@ const actions = {
 // mutations
 const mutations = {
   saveCurrentUser(state, user) {
-
+    state.user = user
   },
   saveUsers(state, users) {
     state.userList = users
   }
-  // pushProductToCart(state, { id }) {
-  //   state.items.push({
-  //     id,
-  //     quantity: 1
-  //   })
-  // },
-
-  // incrementItemQuantity(state, { id }) {
-  //   const cartItem = state.items.find(item => item.id === id)
-  //   cartItem.quantity++
-  // },
-
-  // setCartItems(state, { items }) {
-  //   state.items = items
-  // },
-
-  // setCheckoutStatus(state, status) {
-  //   state.checkoutStatus = status
-  // }
 }
 
 export default {

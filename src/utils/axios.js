@@ -31,6 +31,7 @@ Axios.interceptors.request.use(
 		// token认证写在这里
 		if (config.method === 'post') {
 			config.data = qs.stringify(config.data);
+			config.params = qs.stringify(config.params);
 		}
 		if (localStorage.token) {
 			config.headers.Authorization = localStorage.token || localStorage.admin;
@@ -45,7 +46,7 @@ Axios.interceptors.request.use(
 // 响应拦截
 Axios.interceptors.response.use(
 	(config) => {
-		return config;
+		return { ...config?.data };
 	},
 	(error) => {
 		const { response } = error
@@ -87,7 +88,7 @@ export function get(url, params = {}) {
 	});
 }
 // post封装
-export function post(url, params = {}, data = {}) {
+export function post(url, data = {}, params = {}) {
 	return new Promise((resolve, reject) => {
 		Axios({
 			url,
@@ -105,6 +106,7 @@ export function post(url, params = {}, data = {}) {
 }
 // delete封装
 export function del(url, params = {}, data = {}) {
+
 	return new Promise((resolve, reject) => {
 		Axios({
 			url,

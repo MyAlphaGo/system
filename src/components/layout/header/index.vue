@@ -4,12 +4,11 @@
       <a-dropdown>
         <a-menu slot="overlay" @click="handleMenuClick">
           <a-menu-item key="1">
-            <a-icon type="user" />1st menu item
+            <a-icon type="user" />个人信息
           </a-menu-item>
           <a-menu-item key="2">
-            <a-icon type="user" />2nd menu item
+            <a-icon type="user" />退出登录
           </a-menu-item>
-          <a-menu-item key="3"> <a-icon type="user" />3rd item </a-menu-item>
         </a-menu>
         <a-button style="margin-left: 8px">
           {{ "name" }} <a-icon type="user" />
