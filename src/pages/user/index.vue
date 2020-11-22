@@ -5,16 +5,33 @@
         <div class="flexc filter">
           <div class="flexc">
             <span>查询用户： </span>
-            <span><a-input-search placeholder="还没有做"></a-input-search></span>
+            <span
+              ><a-input-search placeholder="还没有做"></a-input-search
+            ></span>
           </div>
           <a-button v-on:click="addUser">添加用户</a-button>
         </div>
       </template>
-      <a-table :columns="cols" :dataSource="userList"> </a-table>
+      <a-table
+        :columns="cols"
+        :dataSource="userList"
+        :scroll="{ x: 1400, y: 'calc(100vh - 40px)' }"
+        :rowKey="(record) => record.user_id"
+      >
+        <template slot="option" slot-scope="text, record">
+          <div class="flexc">
+            <a-button type="link" v-on:click="editUser(record)">修改</a-button>
+            <a-button type="link" v-on:click="delUser(record.user_id)"
+              >删除</a-button
+            >
+          </div>
+        </template>
+      </a-table>
     </TableLayout>
-    <Create
-      v-bind:visible="createVisible"
-      title="创建用户"
+    <UserModal
+      v-bind:visible="userModalProps.visible"
+      v-bind:title="userModalProps.title"
+      v-bind:user="userModalProps.user"
       v-bind:onChangeVisible="handleVisible"
     />
   </div>
@@ -23,15 +40,15 @@
 <script>
 import { mapState } from "vuex";
 import TableLayout from "@/components/table";
-import Create from "./create.vue";
+import UserModal from "./userModal";
 export default {
   name: "userList",
   components: {
     TableLayout,
-    Create,
+    UserModal,
   },
   computed: mapState({
-    userList: (state) => state.User.userList,
+    userList: (state) => state.User?.userList,
   }),
   data() {
     return {
@@ -87,18 +104,18 @@ export default {
           dataIndex: "role_name",
         },
         {
-          title: "数据权限",
-          dataIndex: "dat_access",
-        },
-        {
           title: "操作",
           dataIndex: "option",
-          render: () => {
-            <div>11</div>;
-          },
+          width: 150,
+          fixed: "right",
+          scopedSlots: { customRender: "option" },
         },
       ],
-      createVisible: false,
+      userModalProps: {
+        visible: false,
+        title: "",
+        user: {},
+      },
     };
   },
 
@@ -107,8 +124,11 @@ export default {
       this.$store.dispatch("User/getUserList");
     },
     addUser() {
-      console.log("??");
-      this.createVisible = true;
+      this.userModalProps = { visible: true, title: "创建用户", user: {} };
+    },
+    delUser(id) {},
+    editUser(user) {
+      this.userModalProps = { visible: true, title: "编辑用户", user };
     },
     handleVisible(visible) {
       this.createVisible = visible;

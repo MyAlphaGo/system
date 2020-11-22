@@ -21,17 +21,24 @@ const actions = {
       if (res?.data) {
         message.success("登录成功！")
         router.push('/index')
-        UserService.getUserInfo()
+        commit('saveUserToLoc',{
+          userName: params.userName,
+          password: params.password,
+          remember: params.remember,
+        })
       } else {
+        commit('saveUserToLoc',{
+          userName: params.userName,
+          password: '',
+          remember: false,
+        })
         message.error('用户名或者密码错误')
-      }
-    }).then(res => {
-      if (res.data) {
-        console.log(res.data)
-        commit('saveCurrentUser', res.data)
+        router.push('/login')
       }
     })
-
+  },
+  beforeLogin({ commit }, cb) {
+    commit('getUserForLoc',cb)
   },
   createUser({ commit }, params) {
     UserService.createUser(params).then(res => {
@@ -39,15 +46,15 @@ const actions = {
     })
   },
   getLoginInfo({ commit }, params) {
-    UserService.getUserList(params).then(res => {
-      const { userList } = res.data
-      commit('saveUsers', userList)
+    UserService.getUserInfo(params).then(res => {
+      const user = res?.data
+      commit('saveCurrentUser', user)
     })
   },
   getUserList({ commit }, params) {
     UserService.getUserList(params).then(res => {
       console.log(res)
-      const userList = res.data.users || []
+      const userList = res.data?.users || []
 
       commit('saveUsers', {
         users: userList,
@@ -65,6 +72,20 @@ const mutations = {
   saveUsers(state, { users, total }) {
     state.userList = users
     state.total = total
+  },
+  saveUserToLoc(_, loginInfo) {
+    localStorage.setItem('userName', loginInfo.userName)
+    if(loginInfo.remember) {
+      localStorage.setItem('password', loginInfo.password)
+      localStorage.setItem('remember',true)
+    }
+  },
+  getUserForLoc(_, cb) {
+    cb({
+      userName: localStorage.getItem('userName'),
+      password: localStorage.getItem('password'),
+      remember: localStorage.getItem('remember'),
+    })
   }
 }
 

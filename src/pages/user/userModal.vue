@@ -150,14 +150,17 @@ export default {
   props: {
     title: String,
     visible: Boolean,
+    user: Object,
     onChangeVisible: Function,
+    editUser: Object,
+    onSuccess: Function,
   },
   data() {
     return {
       roleList: [],
       positionList: [],
       deptList: [],
-      user: {
+      userLoc: {
         user_name: "test",
         email: "126133@qq.com",
         description: "hhh",
@@ -173,9 +176,9 @@ export default {
   methods: {
     handleUser() {},
     handleOk() {
+      console.log(this.userf)
       this.form.validateFields((err, values) => {
         if (!err) {
-          // return;
           this.$store.dispatch("User/createUser", { ...values });
           this.onChangeVisible(false);
         }

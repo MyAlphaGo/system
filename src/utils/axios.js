@@ -46,7 +46,7 @@ Axios.interceptors.request.use(
 // 响应拦截
 Axios.interceptors.response.use(
 	(config) => {
-		
+		console.log(config)
 		if(config.data.code === 29) {	//特殊判断
 			window.location.href = `${window.location.origin}/login`
 			message.success("用户未登录，请先登录")

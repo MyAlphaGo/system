@@ -3,25 +3,29 @@
     <div>
       <a-dropdown>
         <a-menu slot="overlay" @click="handleMenuClick">
-          <a-menu-item key="1">
-            <a-icon type="user" />个人信息
-          </a-menu-item>
-          <a-menu-item key="2">
-            <a-icon type="user" />退出登录
-          </a-menu-item>
+          <a-menu-item key="1"> <a-icon type="user" />个人信息 </a-menu-item>
+          <a-menu-item key="2"> <a-icon type="user" />退出登录 </a-menu-item>
         </a-menu>
         <a-button style="margin-left: 8px">
-          {{ "name" }} <a-icon type="user" />
+          {{ user.user_name }} <a-icon type="user" />
         </a-button>
       </a-dropdown>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Nav",
   data() {
     return {};
+  },
+  computed: mapState({
+    user: (state) => state.User.user,
+  }),
+  beforeCreate(){
+    this.$store.dispatch('User/getLoginInfo')
   },
   methods: {
     handleMenuClick(...args) {

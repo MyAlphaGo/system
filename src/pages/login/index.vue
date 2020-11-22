@@ -87,36 +87,36 @@ export default {
     };
   },
   methods: {
-    login() { //登录
+    login() {
+      //登录
       this.form.validateFields((err, values) => {
         if (!err) {
-          localStorage.setItem("userName", values.userName);
-          if (values.remember) {
-            localStorage.setItem("password", values.password);
-          } else {
-            localStorage.removeItem("password", values.password);
-          }
-          this.$store.dispatch('User/login',{
+          this.$store.dispatch("User/login", {
             userName: values.userName,
             password: values.password,
-          })
+            remember: values.remember
+          });
+          this.form.resetFields(['password']);
         }
       });
+    },
+    beforeLogin({ userName, password, remember }) {
+      this.user.name = userName;
+      this.user.pwd = password;
     },
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "normal_login" });
   },
   beforeMount() {
-    this.user.name = localStorage.getItem("userName") || "";
-    this.user.pwd = localStorage.getItem("password") || "";
+    this.$store.dispatch("User/beforeLogin", this.beforeLogin);
   },
 };
 </script>
 
 <style lang="less" scoped>
 .container {
-  background-image: url('../../assets/loginbg.jpg');
+  background-image: url("../../assets/loginbg.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
