@@ -2,7 +2,7 @@
   <a-layout class="container">
     <a-layout-content class="content">
       <a-layout>
-        <a-layout-sider class="bgc sider" breakpoint="lg" collapsed-width="0">
+        <a-layout-sider style="margin-left: -20px;" class="bgc sider" breakpoint="lg" collapsed-width="0">
           <Menu></Menu>
         </a-layout-sider>
         <a-layout-content>

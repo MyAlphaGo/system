@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="logo">logo</div>
+    <div class="logo"><img src="../../../assets/logo.jpg" alt=""></div>
     <a-menu>
       <a-menu-item v-bind:key="item.value" v-for="item in menuList">
-        <router-link :to="item.value" :name="item.title">{{item.title}}</router-link>
+        <router-link :to="item.value" :name="item.title"><a-icon :type="item.type" />{{item.title}}</router-link>
       </a-menu-item>
     </a-menu>
   </div>
@@ -14,15 +14,15 @@ export default {
   data() {
     return {
       menuList: [
-        { title: "文件管理", value: "/file" },
-        { title: "人员信息管理", value: "/people/info" },
-        { title: "人员档案管理", value: "/people/record" },
-        { title: "培训管理", value: "/learn" },
-        { title: "职称管理", value: "/rank" },
-        { title: "社保管理", value: "/welfare" },
-        { title: "部门管理", value: "/department" },
-        { title: "考勤管理", value: "/attendance" },
-        { title: "日志管理", value: "/log" },
+        { title: "文件管理", value: "/file", type:"folder"},
+        { title: "信息管理", value: "/people/info", type:"user"},
+        { title: "档案管理", value: "/people/record",type:"inbox"},
+        { title: "培训管理", value: "/learn",type:"book" },
+        { title: "职称管理", value: "/rank" ,type:"contacts"},
+        { title: "社保管理", value: "/welfare" ,type:"pound"},
+        { title: "部门管理", value: "/department" ,type:"team"},
+        { title: "考勤管理", value: "/attendance",type:"trademark" },
+        { title: "日志管理", value: "/log",type:"history" },
       ],
     };
   },
@@ -35,5 +35,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    img{
+      width: 75%;
+    }
   }
 </style>
