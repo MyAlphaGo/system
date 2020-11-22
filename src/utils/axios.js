@@ -24,17 +24,17 @@ const codeMessage = {
 
 var Axios = axios.create();
 Axios.defaults.baseURL = "http://101.37.76.80:9001/os/"
-axios.default.timeOut = 10000;
+Axios.defaults.withCredentials = true
+Axios.defaults.timeout = 1000
+Axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+// Axios.defaults.headers['Content-Type'] = 'application/json';
 // 请求拦截
 Axios.interceptors.request.use(
 	(config) => {
-		// token认证写在这里
+		config.withCredentials = true
 		if (config.method === 'post') {
 			config.data = qs.stringify(config.data);
-			config.params = qs.stringify(config.params);
-		}
-		if (localStorage.token) {
-			config.headers.Authorization = localStorage.token || localStorage.admin;
+      config.params = qs.stringify(config.params);
 		}
 
 		return config;
@@ -46,6 +46,12 @@ Axios.interceptors.request.use(
 // 响应拦截
 Axios.interceptors.response.use(
 	(config) => {
+		
+		if(config.data.code === 29) {	//特殊判断
+			window.location.href = `${window.location.origin}/login`
+			message.success("用户未登录，请先登录")
+				return
+		}
 		return { ...config?.data };
 	},
 	(error) => {

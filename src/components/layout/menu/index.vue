@@ -2,9 +2,9 @@
   <div>
     <div class="logo">logo</div>
     <a-menu>
-      <a-menu-item v-bind:key="item.value" v-for="item in menuList">{{
-        item.title
-      }}</a-menu-item>
+      <a-menu-item v-bind:key="item.value" v-for="item in menuList">
+        <router-link :to="item.value" :name="item.title">{{item.title}}</router-link>
+      </a-menu-item>
     </a-menu>
   </div>
 </template>

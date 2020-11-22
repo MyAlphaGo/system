@@ -38,7 +38,6 @@ export default {
   }
   .content {
     flex: 1;
-    background-color: skyblue;
     .ant-layout {
       height: 100%;
     }

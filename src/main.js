@@ -15,6 +15,8 @@ import {
   Checkbox,
   FormModel,
   Table,
+  Modal,
+  Radio,
 } from 'ant-design-vue';
 
 Vue.use(Button)
@@ -29,6 +31,8 @@ Vue.use(Input)
 Vue.use(Select)
 Vue.use(Checkbox)
 Vue.use(Table)
+Vue.use(Modal)
+Vue.use(Radio)
 
 Vue.config.productionTip = false
 

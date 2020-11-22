@@ -1,22 +1,38 @@
 <template>
   <div>
-    sdfsadf
+    <TableLayout>
+      <template v-slot:header>
+        <div class="flexc filter">
+          <div class="flexc">
+            <span>查询用户： </span>
+            <span><a-input-search placeholder="还没有做"></a-input-search></span>
+          </div>
+          <a-button v-on:click="addUser">添加用户</a-button>
+        </div>
+      </template>
       <a-table :columns="cols" :dataSource="userList"> </a-table>
+    </TableLayout>
+    <Create
+      v-bind:visible="createVisible"
+      title="创建用户"
+      v-bind:onChangeVisible="handleVisible"
+    />
   </div>
-
 </template>
 
 <script>
 import { mapState } from "vuex";
+import TableLayout from "@/components/table";
+import Create from "./create.vue";
 export default {
   name: "userList",
+  components: {
+    TableLayout,
+    Create,
+  },
   computed: mapState({
     userList: (state) => state.User.userList,
   }),
-  // created() {
-  //   console.log('?????')
-  //   this.$store.dispatch("user/getUserList", params);
-  // },
   data() {
     return {
       params: {
@@ -74,17 +90,32 @@ export default {
           title: "数据权限",
           dataIndex: "dat_access",
         },
+        {
+          title: "操作",
+          dataIndex: "option",
+          render: () => {
+            <div>11</div>;
+          },
+        },
       ],
+      createVisible: false,
     };
   },
-  
+
   methods: {
     getUserList(params) {
-      this.$store.dispatch('User/getUserList', params);
+      this.$store.dispatch("User/getUserList");
+    },
+    addUser() {
+      console.log("??");
+      this.createVisible = true;
+    },
+    handleVisible(visible) {
+      this.createVisible = visible;
     },
   },
-  mounted(){
-    this.getUserList(this.params)
+  mounted() {
+    this.getUserList(this.params);
   },
   // updated() {
   //   console.log('asdf')
@@ -93,5 +124,13 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
+.flexc {
+  display: flex;
+  align-items: center;
+}
+.filter {
+  width: 100%;
+  justify-content: space-between;
+}
 </style>

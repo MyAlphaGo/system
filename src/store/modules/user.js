@@ -3,7 +3,8 @@ import router from '@/router'
 import { message } from 'ant-design-vue'
 const state = () => ({
   user: {},
-  userList: []
+  userList: [],
+  total: 0,
 })
 
 // getters
@@ -45,8 +46,13 @@ const actions = {
   },
   getUserList({ commit }, params) {
     UserService.getUserList(params).then(res => {
-      const userList = res.data || []
-      commit('saveUsers', userList)
+      console.log(res)
+      const userList = res.data.users || []
+
+      commit('saveUsers', {
+        users: userList,
+        total: res.data.total
+      })
     })
   }
 }
@@ -56,8 +62,9 @@ const mutations = {
   saveCurrentUser(state, user) {
     state.user = user
   },
-  saveUsers(state, users) {
+  saveUsers(state, { users, total }) {
     state.userList = users
+    state.total = total
   }
 }
 

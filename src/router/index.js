@@ -6,6 +6,8 @@ import login from '../pages/login'
 
 import UserList from '../pages/user'
 
+import NotFind from '@/components/404'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -24,12 +26,12 @@ const routes = [
       },
       {
         name: '人员信息管理',
-        path: 'user',
+        path: 'people',
         component: UserList,
         children: [
           {
             name: '人员信息列表',
-            path: 'list',
+            path: 'info',
             component: UserList
           },
           // {
@@ -39,8 +41,14 @@ const routes = [
           // }
         ]
       },
+      {
+        path: '*',
+        name: 404,
+        component: NotFind
+      }
     ]
   },
+  
 ]
 
 const router = new VueRouter({
