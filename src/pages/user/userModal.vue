@@ -17,7 +17,7 @@
             'user_name',
             {
               rules: [{ required: true, message: '请输入用户名！' }],
-              initialValue: user.user_name,
+              initialValue: renderUser.user_name,
             },
           ]"
         >
@@ -29,7 +29,7 @@
             'email',
             {
               rules: [{ required: true, message: '请输入邮箱！' }],
-              initialValue: user.email,
+              initialValue: renderUser.email,
             },
           ]"
         >
@@ -40,7 +40,7 @@
           v-decorator="[
             'sex',
             {
-              initialValue: user.sex,
+              initialValue: renderUser.sex,
             },
           ]"
         >
@@ -53,7 +53,7 @@
           v-decorator="[
             'age',
             {
-              initialValue: user.age,
+              initialValue: renderUser.age,
             },
           ]"
         >
@@ -65,7 +65,7 @@
             'dept_id',
             {
               rules: [{ required: true, message: '请选择部门！' }],
-              initialValue: user.dept_id,
+              initialValue: renderUser.dept_id,
             },
           ]"
         >
@@ -84,7 +84,7 @@
             'position_id',
             {
               rules: [{ required: true, message: '请选择职位！' }],
-              initialValue: user.position_id,
+              initialValue: renderUser.position_id,
             },
           ]"
         >
@@ -103,7 +103,7 @@
             'city',
             {
               rules: [{ required: true, message: '请选择城市！' }],
-              initialValue: user.city,
+              initialValue: renderUser.city,
             },
           ]"
         >
@@ -115,7 +115,7 @@
             'role_id',
             {
               rules: [{ required: true, message: '请选择角色！' }],
-              initialValue: user.role_id,
+              initialValue: renderUser.role_id,
             },
           ]"
         >
@@ -133,7 +133,7 @@
             'description',
             {
               rules: [{ max: 100, message: '不得超过100字' }],
-              initialValue: user.description,
+              initialValue: renderUser.description,
             },
           ]"
           :auto-size="{ minRows: 3, maxRows: 5 }"
@@ -148,9 +148,8 @@
 import { RoleService, PositionService, DeptService } from "@/api";
 export default {
   props: {
-    title: String,
-    visible: Boolean,
     user: Object,
+    visible: Boolean,
     onChangeVisible: Function,
     editUser: Object,
     onSuccess: Function,
@@ -160,50 +159,97 @@ export default {
       roleList: [],
       positionList: [],
       deptList: [],
-      userLoc: {
-        user_name: "test",
-        email: "126133@qq.com",
-        description: "hhh",
-        sex: "男",
-        age: 19,
-        dept_id: "1",
-        position_id: "1",
-        city: "成都",
-        role_id: 1,
-      },
+      // test
+      // renderUser: {
+      //   user_name: "test",
+      //   email: "126133@qq.com",
+      //   description: "hhh",
+      //   sex: "男",
+      //   age: 19,
+      //   dept_id: "1",
+      //   position_id: "1",
+      //   city: "成都",
+      //   role_id: 1,
+      // },
+      renderUser: {},
+      title: "创建用户",
     };
   },
   methods: {
     handleUser() {},
     handleOk() {
-      console.log(this.userf)
       this.form.validateFields((err, values) => {
         if (!err) {
-          this.$store.dispatch("User/createUser", { ...values });
+          if (Object.keys(this.renderUser).length === 0) {
+            this.$store.dispatch("User/createUser", { ...values }).then(() => {
+              if (this.onSuccess) {
+                this.onSuccess();
+              }
+            });
+          } else {
+            this.$store
+              .dispatch("User/editUser", {
+                ...values,
+                user_id: this.renderUser?.user_id,
+              })
+              .then(() => {
+                if (this.onSuccess) {
+                  this.onSuccess();
+                }
+              });
+          }
+          this.clearState();
           this.onChangeVisible(false);
         }
       });
     },
     handleCancel() {
+      this.clearState();
       this.onChangeVisible(false);
+    },
+    clearState() {
+      this.renderUser = {};
+      this.title = "创建用户";
+      this.roleList = [];
+      this.positionList = [];
+      this.deptList = [];
+      this.form.resetFields();
     },
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "form" });
   },
   watch: {
-    visible: function (newVal, oldVal) {
+    visible: function (newVal) {
       if (newVal) {
         RoleService.getRoleList().then((res) => {
           this.roleList = res.data || [];
         });
         PositionService.getPositionList().then((res) => {
           this.positionList = res.data || [];
+          const renderUser = { ...this.renderUser };
+          res.data.find((item) => {
+            if (item.position_name === renderUser.position) {
+              renderUser.position_id = item.position_id;
+              return true;
+            }
+          });
+          this.renderUser = renderUser;
         });
         DeptService.getDeptList().then((res) => {
           this.deptList = res.data || [];
+          const renderUser = { ...this.renderUser };
+          res.data.find((item) => {
+            if (item.deptName === renderUser.dept) {
+              renderUser.dept_id = item.deptId;
+            }
+          });
+          this.renderUser = renderUser;
         });
       }
+    },
+    user: function (newVal) {
+      this.renderUser = newVal
     },
   },
 };

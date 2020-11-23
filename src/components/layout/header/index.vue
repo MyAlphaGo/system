@@ -28,8 +28,7 @@ export default {
     this.$store.dispatch('User/getLoginInfo')
   },
   methods: {
-    handleMenuClick(...args) {
-      console.log(args);
+    handleMenuClick() {
     },
   },
 };

@@ -1,6 +1,7 @@
 import axios from "axios";
-import qs from 'qs'
-import { notification } from 'ant-design-vue'
+// import qs from 'qs'
+import { notification,message } from 'ant-design-vue'
+
 
 
 const codeMessage = {
@@ -26,15 +27,16 @@ var Axios = axios.create();
 Axios.defaults.baseURL = "http://101.37.76.80:9001/os/"
 Axios.defaults.withCredentials = true
 Axios.defaults.timeout = 1000
-Axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-// Axios.defaults.headers['Content-Type'] = 'application/json';
+// Axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+Axios.defaults.headers['Content-Type'] = 'application/json';
 // 请求拦截
 Axios.interceptors.request.use(
 	(config) => {
 		config.withCredentials = true
 		if (config.method === 'post') {
-			config.data = qs.stringify(config.data);
-      config.params = qs.stringify(config.params);
+			config.data = JSON.stringify(config.data);
+			// config.params = JSON.stringify(config.params);
+			// config.json = JSON.stringify(config.data);
 		}
 
 		return config;
@@ -46,7 +48,6 @@ Axios.interceptors.request.use(
 // 响应拦截
 Axios.interceptors.response.use(
 	(config) => {
-		console.log(config)
 		if(config.data.code === 29) {	//特殊判断
 			window.location.href = `${window.location.origin}/login`
 			message.success("用户未登录，请先登录")

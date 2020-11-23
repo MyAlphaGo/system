@@ -12,11 +12,15 @@
           <a-button v-on:click="addUser">添加用户</a-button>
         </div>
       </template>
+
       <a-table
         :columns="cols"
         :dataSource="userList"
-        :scroll="{ x: 1400, y: 'calc(100vh - 40px)' }"
+        :scroll="{ x: 1400, y: 'calc(100vh - 270px)' }"
         :rowKey="(record) => record.user_id"
+        :loading="loading"
+        :pagination="pagination"
+        @change="handleTableChange"
       >
         <template slot="option" slot-scope="text, record">
           <div class="flexc">
@@ -30,9 +34,9 @@
     </TableLayout>
     <UserModal
       v-bind:visible="userModalProps.visible"
-      v-bind:title="userModalProps.title"
       v-bind:user="userModalProps.user"
       v-bind:onChangeVisible="handleVisible"
+      v-bind:onSuccess="getUserList"
     />
   </div>
 </template>
@@ -48,7 +52,9 @@ export default {
     UserModal,
   },
   computed: mapState({
-    userList: (state) => state.User?.userList,
+    userList: (state) => state.User.userList,
+    total: (state) => state.User.total,
+    loading: (state) => state.User.loading,
   }),
   data() {
     return {
@@ -113,33 +119,48 @@ export default {
       ],
       userModalProps: {
         visible: false,
-        title: "",
         user: {},
       },
+      pagination: {},
+      renderData: [],
     };
   },
 
   methods: {
     getUserList(params) {
-      this.$store.dispatch("User/getUserList");
+      this.$store.dispatch("User/getUserList", params).then(() => {
+        const pagination = { ...this.pagination };
+        pagination.total = this.total;
+        this.pagination = pagination;
+      });
     },
     addUser() {
-      this.userModalProps = { visible: true, title: "创建用户", user: {} };
+      this.userModalProps = { visible: true, user: {} };
     },
-    delUser(id) {},
+    delUser(id) {
+      this.$store.dispatch("User/delUser", { user_id: id }).then(() => {
+        this.getUserList()
+      });
+    },
     editUser(user) {
-      this.userModalProps = { visible: true, title: "编辑用户", user };
+      this.userModalProps = { visible: true, user: user };
+    },
+    handleTableChange(pagination, filters, sorter) {
+      this.getUserList({ page: pagination.current });
     },
     handleVisible(visible) {
-      this.createVisible = visible;
+      this.userModalProps = { visible, user: {} };
     },
   },
   mounted() {
-    this.getUserList(this.params);
+    this.getUserList();
   },
   // updated() {
-  //   console.log('asdf')
   //   this.getUserList(this.params);
+  // },
+  // watch: {
+  //   loading: function(newval,old){
+  //   }
   // },
 };
 </script>
@@ -153,4 +174,10 @@ export default {
   width: 100%;
   justify-content: space-between;
 }
+// .ant-table-content {
+//   height: calc(100vh - 270px);
+//   overflow-y: au;
+// }
+</style>
+<style lang="less" scoped>
 </style>

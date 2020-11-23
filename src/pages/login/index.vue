@@ -103,6 +103,7 @@ export default {
     beforeLogin({ userName, password, remember }) {
       this.user.name = userName;
       this.user.pwd = password;
+      this.user.remember = remember
     },
   },
   beforeCreate() {

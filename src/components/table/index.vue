@@ -15,13 +15,14 @@ export default {
     // children
   },
   mounted(){
-    console.log(this.$slots)
   }
 };
 </script>
 <style lang="less" scoped>
 .warpper {
   padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
   .header {
     display: flex;
     align-items: center;
@@ -29,6 +30,7 @@ export default {
     // background-color: #eee;
   }
   .content {
+    flex: 1;
   }
 }
 </style>
