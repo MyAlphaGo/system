@@ -5,6 +5,8 @@ import home from '../pages/home'
 import login from '../pages/login'
 
 import UserList from '../pages/user'
+import TrainList from '../pages/train'
+import PositionList from '../pages/rank'
 
 import NotFind from '@/components/404'
 
@@ -34,11 +36,30 @@ const routes = [
             path: 'info',
             component: UserList
           },
-          // {
-          //   name: '人员信息列表',
-          //   path: 'list',
-          //   component: import('@/pages/user')
-          // }
+        ]
+      },
+      {
+        name: '培训管理',
+        path: 'learn',
+        component: TrainList,
+        children: [
+          {
+            name: '培训列表',
+            path: 'info',
+            component: TrainList
+          },
+        ]
+      },
+      {
+        name: '职称管理',
+        path: 'rank',
+        component: PositionList,
+        children: [
+          {
+            name: '职称列表',
+            path: 'info',
+            component: PositionList
+          },
         ]
       },
       {

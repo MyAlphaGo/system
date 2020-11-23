@@ -17,6 +17,7 @@ import {
   Table,
   Modal,
   Radio,
+  DatePicker
 } from 'ant-design-vue';
 
 Vue.use(Button)
@@ -33,6 +34,7 @@ Vue.use(Checkbox)
 Vue.use(Table)
 Vue.use(Modal)
 Vue.use(Radio)
+Vue.use(DatePicker)
 
 Vue.config.productionTip = false
 
