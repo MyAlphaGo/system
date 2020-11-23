@@ -9,7 +9,7 @@
               ><a-input-search placeholder="还没有做"></a-input-search
             ></span>
           </div>
-          <a-button v-on:click="addUser">添加用户</a-button>
+          <Auth><a-button v-on:click="addUser">添加用户</a-button></Auth>
         </div>
       </template>
 
@@ -23,12 +23,16 @@
         @change="handleTableChange"
       >
         <template slot="option" slot-scope="text, record">
-          <div class="flexc">
-            <a-button type="link" v-on:click="editUser(record)">修改</a-button>
-            <a-button type="link" v-on:click="delUser(record.user_id)"
-              >删除</a-button
-            >
-          </div>
+          <Auth>
+            <div class="flexc">
+              <a-button type="link" v-on:click="editUser(record)"
+                >修改</a-button
+              >
+              <a-button type="link" v-on:click="delUser(record.user_id)"
+                >删除</a-button
+              >
+            </div>
+          </Auth>
         </template>
       </a-table>
     </TableLayout>
@@ -45,16 +49,19 @@
 import { mapState } from "vuex";
 import TableLayout from "@/components/table";
 import UserModal from "./userModal";
+import Auth from "@/components/auth";
 export default {
   name: "userList",
   components: {
     TableLayout,
     UserModal,
+    Auth,
   },
   computed: mapState({
     userList: (state) => state.User.userList,
     total: (state) => state.User.total,
     loading: (state) => state.User.loading,
+    user: (state) => state.User.user,
   }),
   data() {
     return {
@@ -139,7 +146,7 @@ export default {
     },
     delUser(id) {
       this.$store.dispatch("User/delUser", { user_id: id }).then(() => {
-        this.getUserList()
+        this.getUserList();
       });
     },
     editUser(user) {
@@ -159,8 +166,12 @@ export default {
   //   this.getUserList(this.params);
   // },
   // watch: {
-  //   loading: function(newval,old){
-  //   }
+  //   user: function (newval, old) {
+  //     if (auth(newval)) {
+  //       console.log(newval);
+  //       this.cols = this.cols.slice(0, this.cols.length - 1);
+  //     }
+  //   },
   // },
 };
 </script>
