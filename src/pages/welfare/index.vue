@@ -4,128 +4,120 @@
       <template v-slot:header>
         <div class="flexc filter">
           <div class="flexc"></div>
-          <!-- <Auth><a-button v-on:click="addUser">添加用户</a-button></Auth> -->
+          <Auth><a-button v-on:click="addData">添加职位</a-button></Auth>
         </div>
       </template>
 
       <a-table
         :columns="cols"
         :dataSource="renderData"
-        :scroll="{ x: 1400, y: 'calc(100vh - 270px)' }"
-        :rowKey="(record) => record.user_id"
+        :scroll="{ y: 'calc(100vh - 270px)' }"
+        :rowKey="(record) => record.id"
         :loading="loading"
         :pagination="pagination"
         @change="handleTableChange"
       >
-        <!-- <template slot="option" slot-scope="text, record">
+        <template slot="option" slot-scope="text, record">
           <Auth>
             <div class="flexc">
-              <a-button type="link" v-on:click="editTrain(record)"
+              <a-button type="link" v-on:click="editData(record)"
                 >修改</a-button
               >
-              <a-button type="link" v-on:click="delTrain(record.user_id)"
+              <a-button type="link" v-on:click="delData({id:record.id})"
                 >删除</a-button
               >
             </div>
           </Auth>
-        </template> -->
+        </template>
       </a-table>
     </TableLayout>
-    <!-- <UserModal
-      v-bind:visible="userModalProps.visible"
-      v-bind:user="userModalProps.user"
+    <Modal
+      v-bind:visible="ModalProps.visible"
+      v-bind:editData="ModalProps.editData"
       v-bind:onChangeVisible="handleVisible"
-      v-bind:onSuccess="getUserList"
-    /> -->
+      v-bind:onSuccess="getDataList"
+    />
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import TableLayout from "@/components/table";
-import UserModal from "./userModal";
+import Modal from "./Modal";
 import Auth from "@/components/auth";
-import { TrainService } from "@/api";
+import { SocialService as DataService } from "@/api";
+import { message } from "ant-design-vue";
 export default {
   name: "Train",
   components: {
     TableLayout,
-    UserModal,
+    Modal,
     Auth,
   },
   data() {
     return {
       cols: [
         {
-          title: "培训名称",
-          dataIndex: "train_name",
+          title: "用户名",
+          dataIndex: "user_name",
         },
         {
-          title: "主题",
-          dataIndex: "topic",
+          title: "缴纳年",
+          dataIndex: "surrender_year",
         },
         {
-          title: "分享人",
-          dataIndex: "speaker",
+          title: "缴纳额",
+          dataIndex: "money",
         },
         {
-          title: "分享时间",
-          dataIndex: "show_time",
+          title: "缴纳时间",
+          dataIndex: "surrender_time",
         },
-        {
-          title: "描述",
-          dataIndex: "description",
-        },
-        // {
-        //   title: "年龄",
-        //   dataIndex: "age",
-        // },
         {
           title: "操作",
           dataIndex: "option",
-          width: 150,
-          fixed: "right",
           scopedSlots: { customRender: "option" },
         },
       ],
       ModalProps: {
         visible: false,
-        user: {},
+        editData: {},
       },
       pagination: {},
       renderData: [],
-      loading: false
+      loading: false,
     };
   },
 
   methods: {
     getDataList(params) {
-      this.loading = true
-      TrainService.getTrainList(params).then(res => {
-        this.renderData = res.data?.trains
-        this.loading = false
+      this.loading = true;
+      DataService.getSocialList(params).then((res) => {
+        this.renderData = res.data?.social_securitys;
         const pagination = { ...this.pagination };
-        pagination.total = res.data?.length;
+        pagination.total = res.data?.total;
         this.pagination = pagination;
-      })
+        this.loading = false;
+      });
     },
-    // addUser() {
-    //   this.userModalProps = { visible: true, user: {} };
-    // },
-    // delTrain(id) {
-    //   this.$store.dispatch("User/delUser", { user_id: id }).then(() => {
-    //     this.getUserList();
-    //   });
-    // },
-    // editTrain(user) {
-    //   this.userModalProps = { visible: true, train: train };
-    // },
+    addData() {
+      this.ModalProps = { visible: true, editData: {} };
+    },
+    delData(id) {
+      DataService.delSocial(id).then(() => {
+        message.success("删除成功");
+        this.getDataList();
+      });
+    },
+    editData(data) {
+      this.ModalProps = { visible: true, editData: data };
+    },
     handleTableChange(pagination, filters, sorter) {
-      this.getUserList({ page: pagination.current });
+      this.getDataList({ page: pagination.current });
     },
-    // handleVisible(visible) {
-    //   this.userModalProps = { visible, user: {} };
-    // },
+    handleVisible(visible) {
+      this.ModalProps = { visible, editData: {} };
+    },
   },
   mounted() {
     this.getDataList();

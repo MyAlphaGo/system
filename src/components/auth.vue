@@ -23,6 +23,11 @@ export default {
   },
   mounted(){
     this.flag = this.auth(this.currentUser || {})
+  },
+  watch:{
+    currentUser: function(val){
+      this.flag = this.auth(val || {})
+    }
   }
 };
 </script>

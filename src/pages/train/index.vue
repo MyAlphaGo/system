@@ -23,7 +23,7 @@
               <a-button type="link" v-on:click="editData(record)"
                 >修改</a-button
               >
-              <a-button type="link" v-on:click="delData(record.id)"
+              <a-button type="link" v-on:click="delData({id:record.id})"
                 >删除</a-button
               >
             </div>

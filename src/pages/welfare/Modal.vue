@@ -11,17 +11,55 @@
       :label-col="{ span: 4 }"
       :wrapper-col="{ span: 19 }"
     >
-      <a-form-item label="职称名称">
+      <a-form-item label="用户名">
         <a-input
           v-decorator="[
-            'position_name',
+            'user_name',
             {
-              rules: [{ required: true, message: '请输入职称名称！' }],
+              rules: [{ required: true, message: '请输入用户名！' }],
               initialValue: renderData.position_name,
             },
           ]"
         >
         </a-input>
+      </a-form-item>
+      <a-form-item label="缴纳年">
+        <a-year-picker
+          v-decorator="[
+            'surrender_year',
+            {
+              rules: [{ required: true, message: '请选择缴纳年！' }],
+              initialValue: renderData.position_name,
+            },
+          ]"
+        >
+        </a-year-picker>
+      </a-form-item>
+      <a-form-item label="缴纳额">
+        <a-input-number
+          v-bind:style="{ width: '100%' }"
+          v-decorator="[
+            'money',
+            {
+              rules: [{ required: true, message: '请输入缴纳额！' }],
+              initialValue: renderData.position_name,
+            },
+          ]"
+        >
+        </a-input-number>
+      </a-form-item>
+      <a-form-item label="缴纳时间">
+        <a-date-picker
+          v-bind:style="{ width: '100%' }"
+          v-decorator="[
+            'surrender_time',
+            {
+              rules: [{ required: true, message: '请选择缴纳时间！' }],
+              initialValue: renderData.position_name,
+            },
+          ]"
+        >
+        </a-date-picker>
       </a-form-item>
     </a-form>
   </a-modal>

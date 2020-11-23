@@ -11,7 +11,7 @@
       <a-table
         :columns="cols"
         :dataSource="renderData"
-        :scroll="{ x: 1400, y: 'calc(100vh - 270px)' }"
+        :scroll="{ y: 'calc(100vh - 270px)' }"
         :rowKey="(record) => record.id"
         :loading="loading"
         :pagination="pagination"
@@ -23,7 +23,7 @@
               <a-button type="link" v-on:click="editData(record)"
                 >修改</a-button
               >
-              <a-button type="link" v-on:click="delData(record.id)"
+              <a-button type="link" v-on:click="delData({id:record.id})"
                 >删除</a-button
               >
             </div>
@@ -59,7 +59,7 @@ export default {
       cols: [
         {
           title: "职位编号",
-          dataIndex: "position_id",
+          dataIndex: "id",
         },
         {
           title: "职位名称",
@@ -68,8 +68,6 @@ export default {
         {
           title: "操作",
           dataIndex: "option",
-          width: 150,
-          fixed: "right",
           scopedSlots: { customRender: "option" },
         },
       ],
@@ -89,7 +87,7 @@ export default {
       DataService.getPositionList(params).then((res) => {
         this.renderData = res.data;
         const pagination = { ...this.pagination };
-        pagination.total = res.data?.total;
+        pagination.total = res.data?.length;
         this.pagination = pagination;
         this.loading = false;
       });
