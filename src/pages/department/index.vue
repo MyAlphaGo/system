@@ -4,11 +4,7 @@
       <template v-slot:header>
         <div class="flexc filter">
           <div class="flexc"></div>
-          <Auth
-            ><a-button v-on:click="addData({ parent: currentDept })"
-              >添加社保</a-button
-            ></Auth
-          >
+          <Auth><a-button v-on:click="addData">添加社保</a-button></Auth>
         </div>
       </template>
 
@@ -19,6 +15,7 @@
             :tree-data="renderData"
             @select="onSelect"
             :defaultExpandAll="true"
+            :selected-keys="selectedKeys"
           >
           </a-tree>
         </div>
@@ -35,9 +32,7 @@
             <template slot="option" slot-scope="text, record">
               <Auth>
                 <div class="flexc">
-                  <a-button
-                    type="link"
-                    v-on:click="editData({ data: record, parent: currentDept })"
+                  <a-button type="link" v-on:click="editData(data)"
                     >修改</a-button
                   >
                   <a-button type="link" v-on:click="delData({ id: record.id })"
@@ -53,6 +48,7 @@
     <Modal
       v-bind:visible="ModalProps.visible"
       v-bind:editData="ModalProps.editData"
+      v-bind:parent="ModalProps.parent"
       v-bind:onChangeVisible="handleVisible"
       v-bind:onSuccess="getDataList"
     />
@@ -84,12 +80,18 @@ export default {
           title: "部门名称",
           dataIndex: "dept_name",
         },
+        {
+          title: "操作",
+          dataIndex: "option",
+          scopedSlots: { customRender: "option" },
+        },
       ],
+      selectedKeys: [2],
       tableData: [],
-      currentDept: 0,
       ModalProps: {
         visible: false,
         editData: {},
+        parent: 2,
       },
       pagination: {},
       renderData: [],
@@ -109,27 +111,30 @@ export default {
         id: item.data.props?.id,
         dept_name: item.data.props?.title,
       }));
-      this.currentDept = selectedKeys[0];
-      // this.tableData = info.node.getNodeChildren()
+      this.ModalProps.parent = selectedKeys[0];
+      this.selectedKeys = selectedKeys
     },
     getDataList(params) {
       this.loading = true;
       DataService.getDeptTree(params).then((res) => {
         this.renderData = res.data;
+        this.ModalProps.parent = res.data[0].id;
+        this.selectedKeys = [res.data[0].id]
+        this.tableData = res.data[0].child;
         this.loading = false;
       });
     },
-    addData(data) {
-      this.ModalProps = { visible: true, editData: data };
+    addData() {
+      this.ModalProps = { ...this.ModalProps, visible: true, editData: {} };
     },
     delData(id) {
-      DataService.delSocial(id).then(() => {
+      DataService.delDept(id).then(() => {
         message.success("删除成功");
         this.getDataList();
       });
     },
     editData(data) {
-      this.ModalProps = { visible: true, editData: data };
+      this.ModalProps = { ...this.ModalProps, visible: true, editData: data };
     },
     handleTableChange(pagination, filters, sorter) {
       this.getDataList({ page: pagination.current });
@@ -157,6 +162,7 @@ export default {
   display: flex;
   & > div:first-child {
     width: 200px;
+    border-right: 1px solid #eee;
   }
   & > div:last-child {
     flex: 1;

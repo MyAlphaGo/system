@@ -11,80 +11,30 @@
       :label-col="{ span: 4 }"
       :wrapper-col="{ span: 19 }"
     >
-      <a-form-item label="用户名">
-        <a-select
+      <a-form-item label="部门名称">
+        <a-input
           v-decorator="[
-            'user_id',
+            'dept_name',
             {
               rules: [{ required: true }],
-              initialValue: renderData.user_id,
+              initialValue: renderData.dept_name,
             },
           ]"
         >
-          <a-select-option
-            v-for="item in userList"
-            :key="item.user_id"
-            :value="item.user_id"
-          >
-            {{ item.user_name }}
-          </a-select-option>
-        </a-select>
-      </a-form-item>
-      <a-form-item label="缴纳年">
-        <a-date-picker
-          format="YYYY"
-          mode="year"
-          v-bind:style="{ width: '100%' }"
-          @panelChange="panelChange"
-          @openChange="openChange"
-          :open="open"
-          v-decorator="[
-            'surrender_year',
-            {
-              rules: [{ required: true, message: '请选择缴纳年！' }],
-              initialValue: renderData.surrender_year,
-            },
-          ]"
-        >
-        </a-date-picker>
-      </a-form-item>
-      <a-form-item label="缴纳额">
-        <a-input-number
-          v-bind:style="{ width: '100%' }"
-          v-decorator="[
-            'money',
-            {
-              rules: [{ required: true, message: '请输入缴纳额！' }],
-              initialValue: renderData.money,
-            },
-          ]"
-        >
-        </a-input-number>
-      </a-form-item>
-      <a-form-item label="缴纳时间">
-        <a-date-picker
-          v-bind:style="{ width: '100%' }"
-          v-decorator="[
-            'surrender_time',
-            {
-              rules: [{ required: true, message: '请选择缴纳时间！' }],
-              initialValue: renderData.surrender_time,
-            },
-          ]"
-        >
-        </a-date-picker>
+        </a-input>
       </a-form-item>
     </a-form>
   </a-modal>
 </template>
 
 <script>
-import { SocialService as DataService, UserService } from "@/api";
+import { DeptService as DataService, UserService } from "@/api";
 import { mapState } from "vuex";
 import moment from "moment";
 export default {
   props: {
     editData: Object,
+    parent: Number,
     visible: Boolean,
     onChangeVisible: Function,
     onSuccess: Function,
@@ -101,15 +51,15 @@ export default {
     handleOk() {
       this.form.validateFields((err, values) => {
         if (!err) {
-          
+          values.parent_id = this.parent;
           if (Object.keys(this.editData).length === 0) {
-            DataService.createSocial(values).then(() => {
+            DataService.createDept(values).then(() => {
               if (this.onSuccess) {
                 this.onSuccess();
               }
             });
           } else {
-            DataService.editSocial({
+            DataService.editDept({
               ...values,
               id: this.renderData?.id,
             }).then(() => {
@@ -135,17 +85,6 @@ export default {
       this.deptList = [];
       this.form.resetFields();
     },
-    panelChange(value) {
-      this.form.setFields({surrender_year: {value: value}})
-      this.open = false;
-    },
-    openChange(status) {
-	      if (status) {
-	        this.open = true;
-	      } else {
-	        this.open = false;
-	      }
-	    },
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "form" });
@@ -153,21 +92,15 @@ export default {
   watch: {
     visible: function (newVal) {
       if (newVal) {
-        UserService.getAllUsers().then((res) => {
-          this.userList = res.data || [];
-        });
       }
     },
     editData: function (newVal) {
-      if (Object.keys(newVal.data).length !== 0) {
+      if (Object.keys(newVal).length !== 0) {
         this.title = "编辑部门";
         this.renderData = {
           ...newVal,
-          surrender_year: moment(newVal.surrender_year),
-          surrender_time: moment(newVal.surrender_time),
-          };
+        };
       }
-      
     },
   },
 };
