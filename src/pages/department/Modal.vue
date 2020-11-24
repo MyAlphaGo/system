@@ -93,9 +93,7 @@ export default {
     return {
       userList: [],
       renderData: {},
-      title: "添加社保",
-      //特殊处理年份选择
-      open: false,
+      title: "添加部门",
     };
   },
   methods: {
@@ -103,11 +101,7 @@ export default {
     handleOk() {
       this.form.validateFields((err, values) => {
         if (!err) {
-          values.user_name = this.userList.find(
-            (user) => user.user_id === values.user_id
-          ).user_name;
-          values.surrender_year = moment(values.surrender_year).format('YYYY')
-          values.surrender_time = moment(values.surrender_time).format("YYYY-MM-DD")
+          
           if (Object.keys(this.editData).length === 0) {
             DataService.createSocial(values).then(() => {
               if (this.onSuccess) {
@@ -135,7 +129,7 @@ export default {
     },
     clearState() {
       this.renderUser = {};
-      this.title = "添加社保";
+      this.title = "添加部门";
       this.roleList = [];
       this.positionList = [];
       this.deptList = [];
@@ -165,8 +159,8 @@ export default {
       }
     },
     editData: function (newVal) {
-      if (Object.keys(newVal).length !== 0) {
-        this.title = "编辑社保";
+      if (Object.keys(newVal.data).length !== 0) {
+        this.title = "编辑部门";
         this.renderData = {
           ...newVal,
           surrender_year: moment(newVal.surrender_year),

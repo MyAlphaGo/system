@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import {
-   Button, 
+  Button, 
   Layout, 
   Menu, 
   Dropdown, 
@@ -18,7 +18,8 @@ import {
   Modal,
   Radio,
   DatePicker,
-  InputNumber
+  InputNumber,
+  Tree
 } from 'ant-design-vue';
 
 Vue.use(Button)
@@ -37,6 +38,8 @@ Vue.use(Modal)
 Vue.use(Radio)
 Vue.use(DatePicker)
 Vue.use(InputNumber)
+Vue.use(Tree)
+
 
 Vue.config.productionTip = false
 

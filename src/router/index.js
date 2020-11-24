@@ -8,6 +8,7 @@ import UserList from '../pages/user'
 import TrainList from '../pages/train'
 import PositionList from '../pages/rank'
 import WelfareList from '../pages/welfare'
+import Department from '../pages/department'
 
 import NotFind from '@/components/404'
 
@@ -36,6 +37,18 @@ const routes = [
             name: '人员信息列表',
             path: 'info',
             component: UserList
+          },
+        ]
+      },
+      {
+        name: '部门信息管理',
+        path: 'department',
+        component: Department,
+        children: [
+          {
+            name: '部门信息树',
+            path: 'info',
+            component: Department
           },
         ]
       },

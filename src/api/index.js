@@ -60,7 +60,7 @@ export class DeptService {
     return get('/dept/list', params)
   }
   static async getDeptTree(params) {
-    return del('/dept/tree', params)
+    return get('/dept/tree', params)
   }
   static async getDeptInfo(params = {}) {
     return get('/dept/user_info', params)

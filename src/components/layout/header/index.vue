@@ -3,8 +3,10 @@
     <div>
       <a-dropdown>
         <a-menu slot="overlay" @click="handleMenuClick">
-          <a-menu-item key="1"> <a-icon type="user" />个人信息 </a-menu-item>
-          <a-menu-item key="2"> <a-icon type="user" />退出登录 </a-menu-item>
+          <a-menu-item key="info"> <a-icon type="user" />个人信息 </a-menu-item>
+          <a-menu-item key="signOut">
+            <a-icon type="user" />退出登录
+          </a-menu-item>
         </a-menu>
         <a-button style="margin-left: 8px">
           {{ user.user_name }} <a-icon type="user" />
@@ -15,6 +17,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import router from '@/router'
 
 export default {
   name: "Nav",
@@ -28,7 +31,10 @@ export default {
     this.$store.dispatch('User/getLoginInfo')
   },
   methods: {
-    handleMenuClick() {
+    handleMenuClick(e) {
+      if(e.key === 'signOut'){
+        router.push('/login')
+      }
     },
   },
 };
