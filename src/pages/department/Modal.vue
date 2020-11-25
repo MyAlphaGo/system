@@ -14,7 +14,7 @@
       <a-form-item label="部门名称">
         <a-input
           v-decorator="[
-            'dept_name',
+            'deptName',
             {
               rules: [{ required: true }],
               initialValue: renderData.dept_name,
@@ -51,7 +51,7 @@ export default {
     handleOk() {
       this.form.validateFields((err, values) => {
         if (!err) {
-          values.parent_id = this.parent;
+          values.parentId = this.parent;
           if (Object.keys(this.editData).length === 0) {
             DataService.createDept(values).then(() => {
               if (this.onSuccess) {

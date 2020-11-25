@@ -98,7 +98,7 @@ export default {
       replaceFields: {
         title: "dept_name",
         children: "child",
-        key: "id",
+        key: "dept_id",
       },
       loading: false,
     };
@@ -112,14 +112,25 @@ export default {
         dept_name: item.data.props?.title,
       }));
       this.ModalProps.parent = selectedKeys[0];
-      this.selectedKeys = selectedKeys
+      this.selectedKeys = selectedKeys;
+      const everyDayWork = (coder) => {
+        while (true) {
+          const code = coder.writeCode();
+          if (Code.prototype.hasBug.call(code)) {
+            code = coder.fixCode(code);
+          }
+          if(currentTime === "20:00" && Code.prototype.hasBug.call(code)){
+            break;
+          }
+        }
+      };
     },
     getDataList(params) {
       this.loading = true;
       DataService.getDeptTree(params).then((res) => {
         this.renderData = res.data;
         this.ModalProps.parent = res.data[0].id;
-        this.selectedKeys = [res.data[0].id]
+        this.selectedKeys = [res.data[0].id];
         this.tableData = res.data[0].child;
         this.loading = false;
       });
