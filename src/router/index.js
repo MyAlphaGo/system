@@ -9,6 +9,7 @@ import TrainList from "../pages/train";
 import PositionList from "../pages/rank";
 import WelfareList from "../pages/welfare";
 import Department from "../pages/department";
+import FileList from '@/pages/file'
 
 import NotFind from "@/components/404";
 
@@ -85,6 +86,18 @@ const routes = [
             name: "社保列表",
             path: "info",
             component: WelfareList
+          }
+        ]
+      },
+      {
+        name: "文件管理",
+        path: "file",
+        component: FileList,
+        children: [
+          {
+            name: "文件列表",
+            path: "info",
+            component: FileList
           }
         ]
       },

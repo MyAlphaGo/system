@@ -3,7 +3,7 @@
     <div class="header">
       <slot name="header"></slot>
     </div>
-    <div class="content">
+    <div class="contentTable">
       <slot></slot>
     </div>
   </div>
@@ -22,14 +22,26 @@ export default {
   padding: 10px 20px;
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 70px);
   .header {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
     // background-color: #eee;
   }
-  .content {
+  .contentTable {
     flex: 1;
   }
 }
+</style>
+<style lang="less">
+  .contentTable {
+    flex: 1;
+    .ant-table-wrapper {
+      height: 100%;
+      .ant-table-pagination {
+        margin-top: 70px;
+      }
+    }
+  }
 </style>

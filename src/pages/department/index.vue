@@ -24,7 +24,7 @@
             :columns="cols"
             :dataSource="tableData"
             :scroll="{ y: 'calc(100vh - 270px)' }"
-            :rowKey="record => record.id"
+            :rowKey="(record) => record.id"
             :loading="loading"
             :pagination="pagination"
             @change="handleTableChange"
@@ -66,58 +66,58 @@ export default {
   components: {
     TableLayout,
     Modal,
-    Auth
+    Auth,
   },
   data() {
     return {
       cols: [
         {
           title: "部门编号",
-          dataIndex: "id"
+          dataIndex: "id",
         },
         {
           title: "部门名称",
-          dataIndex: "dept_name"
+          dataIndex: "dept_name",
         },
         {
           title: "操作",
           dataIndex: "option",
-          scopedSlots: { customRender: "option" }
-        }
+          scopedSlots: { customRender: "option" },
+        },
       ],
       selectedKeys: [2],
       tableData: [],
       ModalProps: {
         visible: false,
         editData: {},
-        parent: 2
+        parent: "2",
       },
       pagination: {},
       renderData: [],
       replaceFields: {
         title: "dept_name",
         children: "child",
-        key: "dept_id"
+        key: "dept_id",
       },
-      loading: false
+      loading: false,
     };
   },
 
   methods: {
     onSelect(selectedKeys, info) {
       this.currentDept = selectedKeys[0];
-      this.tableData = info.node.getNodeChildren()?.map(item => ({
+      this.tableData = info.node.getNodeChildren()?.map((item) => ({
         id: item.data.props?.id,
-        dept_name: item.data.props?.title
+        dept_name: item.data.props?.title,
       }));
-      this.ModalProps.parent = selectedKeys[0];
+      this.ModalProps.parent = selectedKeys[0] + "";
       this.selectedKeys = selectedKeys;
     },
     getDataList(params) {
       this.loading = true;
-      DataService.getDeptTree(params).then(res => {
+      DataService.getDeptTree(params).then((res) => {
         this.renderData = res.data;
-        this.ModalProps.parent = res.data[0].id;
+        this.ModalProps.parent = res.data[0].dept_id + "";
         this.selectedKeys = [res.data[0].id];
         this.tableData = res.data[0].child;
         this.loading = false;
@@ -140,11 +140,11 @@ export default {
     },
     handleVisible(visible) {
       this.ModalProps = { visible, editData: {} };
-    }
+    },
   },
   mounted() {
     this.getDataList();
-  }
+  },
 };
 </script>
 

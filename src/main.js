@@ -19,7 +19,8 @@ import {
   Radio,
   DatePicker,
   InputNumber,
-  Tree
+  Tree,
+  Upload
 } from "ant-design-vue";
 
 Vue.use(Button);
@@ -39,6 +40,7 @@ Vue.use(Radio);
 Vue.use(DatePicker);
 Vue.use(InputNumber);
 Vue.use(Tree);
+Vue.use(Upload)
 
 Vue.config.productionTip = false;
 

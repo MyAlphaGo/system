@@ -10,9 +10,16 @@ module.exports = {
     // port: 9040,
     proxy: {
       "/api": {
-        target: "http://10.0.2.1:5000/",
-        changeOrigin: true
+        target: "http://101.37.76.80:9001/os/",
+        changeOrigin: true,
+        pathRewrite: {
+          // 标识替换
+          // 原请求地址为 /api/getData 将'/api'替换''时，
+          // 代理后的请求地址为： http://xxx.xxx.xxx/getData
+          // 若替换为'/other',则代理后的请求地址为 http://xxx.xxx.xxx/other/getData     
+         '^/api': ''  
+       }
       }
     }
-  }
+  },
 };

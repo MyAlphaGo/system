@@ -1,4 +1,4 @@
-import { get, post, del } from "@/utils/axios";
+import { get, post, del, getBlob } from "@/utils/axios";
 
 // 用户相关
 export class UserService {
@@ -23,6 +23,7 @@ export class UserService {
   static async getAllUsers(params = {}) {
     return get("/user/all", params);
   }
+  
 }
 
 // 角色相关
@@ -110,4 +111,35 @@ export class SocialService {
     return get("/social/list", params);
   }
 }
+// 文件相关
+export class FileService {
+  static async getFileInfo(params = {}) {
+    return get("/file/user_info", params);
+  }
+  static async createFile(params) {
+    return post("/file/upload", params);
+  }
+  static async editFile(params) {
+    return post("/file/edit", params);
+  }
+  static async delFile(params) {
+    return del("/file/delete", params);
+  }
+  static async getFileList(params) {
+    return get("/file/list", params);
+  }
+  static async detailFile(params) {
+    return get('/file/detail', params)
+  }
+  static async approveFile(params) {
+    return get('/approve/create', params)
+  }
+  static async opApprove(params) {
+    return get('/approve/op', params)
+  }
+  static async getFile(params) {
+    return getBlob(params)
+  }
+}
+
 export default UserService;

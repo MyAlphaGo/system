@@ -17,7 +17,7 @@
         :columns="cols"
         :dataSource="userList"
         :scroll="{ x: 1400, y: 'calc(100vh - 270px)' }"
-        :rowKey="record => record.user_id"
+        :rowKey="(record) => record.user_id"
         :loading="loading"
         :pagination="pagination"
         @change="handleTableChange"
@@ -55,81 +55,80 @@ export default {
   components: {
     TableLayout,
     UserModal,
-    Auth
+    Auth,
   },
   computed: mapState({
-    userList: state => state.User.userList,
-    total: state => state.User.total,
-    loading: state => state.User.loading,
-    user: state => state.User.user
+    userList: (state) => state.User.userList,
+    total: (state) => state.User.total,
+    loading: (state) => state.User.loading,
+    user: (state) => state.User.user,
   }),
   data() {
     return {
       params: {
         search: "",
-        dept_id: "",
         page: 1,
-        limit: 10
+        limit: 10,
       },
       cols: [
         {
           title: "工号",
-          dataIndex: "work_id"
+          dataIndex: "work_id",
         },
         {
           title: "用户名",
-          dataIndex: "user_name"
+          dataIndex: "user_name",
         },
         {
           title: "邮箱",
-          dataIndex: "email"
+          dataIndex: "email",
         },
         {
           title: "描述",
-          dataIndex: "description"
+          dataIndex: "description",
         },
         {
           title: "性别",
-          dataIndex: "sex"
+          dataIndex: "sex",
         },
         {
           title: "年龄",
-          dataIndex: "age"
+          dataIndex: "age",
         },
         {
           title: "部门名称",
-          dataIndex: "dept"
+          dataIndex: "dept",
         },
         {
           title: "职位",
-          dataIndex: "position"
+          dataIndex: "position",
         },
         {
           title: "城市",
-          dataIndex: "city"
+          dataIndex: "city",
         },
         {
           title: "入职时间",
-          dataIndex: "join_time"
+          dataIndex: "join_time",
         },
         {
           title: "角色名称",
-          dataIndex: "role_name"
+          dataIndex: "role_name",
         },
         {
           title: "操作",
           dataIndex: "option",
           width: 150,
           fixed: "right",
-          scopedSlots: { customRender: "option" }
-        }
+          scopedSlots: { customRender: "option" },
+        },
       ],
       userModalProps: {
         visible: false,
-        user: {}
+        user: {},
       },
       pagination: {},
-      renderData: []
+      renderData: [],
     };
   },
 
@@ -152,16 +151,16 @@ export default {
     editUser(user) {
       this.userModalProps = { visible: true, user: user };
     },
-    handleTableChange(pagination) {
+    handleTableChange(pagination, filters, sorter) {
       this.getUserList({ page: pagination.current });
     },
     handleVisible(visible) {
       this.userModalProps = { visible, user: {} };
-    }
+    },
   },
   mounted() {
     this.getUserList();
-  }
+  },
   // updated() {
   //   this.getUserList(this.params);
   // },
@@ -190,4 +189,5 @@ export default {
 //   overflow-y: au;
 // }
 </style>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+</style>

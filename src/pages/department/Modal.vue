@@ -32,7 +32,7 @@ import { DeptService as DataService } from "@/api";
 export default {
   props: {
     editData: Object,
-    parent: Number,
+    parent: String,
     visible: Boolean,
     onChangeVisible: Function,
     onSuccess: Function

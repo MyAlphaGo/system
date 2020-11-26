@@ -1,6 +1,7 @@
 import axios from "axios";
 // import qs from 'qs'
 import { notification, message } from "ant-design-vue";
+import { baseURL } from '@/consts'
 
 const codeMessage = {
   200: "服务器成功返回请求的数据。",
@@ -22,7 +23,7 @@ const codeMessage = {
 };
 
 var Axios = axios.create();
-Axios.defaults.baseURL = "http://101.37.76.80:9001/os/";
+Axios.defaults.baseURL = baseURL;
 Axios.defaults.withCredentials = true;
 Axios.defaults.timeout = 1000;
 // Axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
