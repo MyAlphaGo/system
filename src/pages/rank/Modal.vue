@@ -17,8 +17,8 @@
             'position_name',
             {
               rules: [{ required: true, message: '请输入职称名称！' }],
-              initialValue: renderData.position_name,
-            },
+              initialValue: renderData.position_name
+            }
           ]"
         >
         </a-input>
@@ -29,20 +29,18 @@
 
 <script>
 import { PositionService as DataService } from "@/api";
-import { mapState } from "vuex";
-import moment from "moment";
 export default {
   props: {
     editData: Object,
     visible: Boolean,
     onChangeVisible: Function,
-    onSuccess: Function,
+    onSuccess: Function
   },
   data() {
     return {
       userList: [],
       renderData: {},
-      title: "创建职称",
+      title: "创建职称"
     };
   },
   methods: {
@@ -59,7 +57,7 @@ export default {
           } else {
             DataService.editPosition({
               ...values,
-              id: this.renderData?.id,
+              id: this.renderData?.id
             }).then(() => {
               if (this.onSuccess) {
                 this.onSuccess();
@@ -82,25 +80,24 @@ export default {
       this.positionList = [];
       this.deptList = [];
       this.form.resetFields();
-    },
+    }
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "form" });
   },
   watch: {
-    visible: function (newVal) {},
-    editData: function (newVal) {
+    visible: function() {},
+    editData: function(newVal) {
       if (Object.keys(newVal).length !== 0) {
         this.title = "修改职称";
       }
       this.renderData = newVal;
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>
 <style lang="less">
 .ant-modal-body {
   // height: 400px;

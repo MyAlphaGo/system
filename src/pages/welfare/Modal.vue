@@ -17,8 +17,8 @@
             'user_id',
             {
               rules: [{ required: true }],
-              initialValue: renderData.user_id,
-            },
+              initialValue: renderData.user_id
+            }
           ]"
         >
           <a-select-option
@@ -42,8 +42,8 @@
             'surrender_year',
             {
               rules: [{ required: true, message: '请选择缴纳年！' }],
-              initialValue: renderData.surrender_year,
-            },
+              initialValue: renderData.surrender_year
+            }
           ]"
         >
         </a-date-picker>
@@ -55,8 +55,8 @@
             'money',
             {
               rules: [{ required: true, message: '请输入缴纳额！' }],
-              initialValue: renderData.money,
-            },
+              initialValue: renderData.money
+            }
           ]"
         >
         </a-input-number>
@@ -68,8 +68,8 @@
             'surrender_time',
             {
               rules: [{ required: true, message: '请选择缴纳时间！' }],
-              initialValue: renderData.surrender_time,
-            },
+              initialValue: renderData.surrender_time
+            }
           ]"
         >
         </a-date-picker>
@@ -80,14 +80,13 @@
 
 <script>
 import { SocialService as DataService, UserService } from "@/api";
-import { mapState } from "vuex";
 import moment from "moment";
 export default {
   props: {
     editData: Object,
     visible: Boolean,
     onChangeVisible: Function,
-    onSuccess: Function,
+    onSuccess: Function
   },
   data() {
     return {
@@ -95,7 +94,7 @@ export default {
       renderData: {},
       title: "添加社保",
       //特殊处理年份选择
-      open: false,
+      open: false
     };
   },
   methods: {
@@ -104,10 +103,12 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           values.user_name = this.userList.find(
-            (user) => user.user_id === values.user_id
+            user => user.user_id === values.user_id
           ).user_name;
-          values.surrender_year = moment(values.surrender_year).format('YYYY')
-          values.surrender_time = moment(values.surrender_time).format("YYYY-MM-DD")
+          values.surrender_year = moment(values.surrender_year).format("YYYY");
+          values.surrender_time = moment(values.surrender_time).format(
+            "YYYY-MM-DD"
+          );
           if (Object.keys(this.editData).length === 0) {
             DataService.createSocial(values).then(() => {
               if (this.onSuccess) {
@@ -117,7 +118,7 @@ export default {
           } else {
             DataService.editSocial({
               ...values,
-              id: this.renderData?.id,
+              id: this.renderData?.id
             }).then(() => {
               if (this.onSuccess) {
                 this.onSuccess();
@@ -142,45 +143,43 @@ export default {
       this.form.resetFields();
     },
     panelChange(value) {
-      this.form.setFields({surrender_year: {value: value}})
+      this.form.setFields({ surrender_year: { value: value } });
       this.open = false;
     },
     openChange(status) {
-	      if (status) {
-	        this.open = true;
-	      } else {
-	        this.open = false;
-	      }
-	    },
+      if (status) {
+        this.open = true;
+      } else {
+        this.open = false;
+      }
+    }
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "form" });
   },
   watch: {
-    visible: function (newVal) {
+    visible: function(newVal) {
       if (newVal) {
-        UserService.getAllUsers().then((res) => {
+        UserService.getAllUsers().then(res => {
           this.userList = res.data || [];
         });
       }
     },
-    editData: function (newVal) {
+    editData: function(newVal) {
       if (Object.keys(newVal).length !== 0) {
         this.title = "编辑社保";
         this.renderData = {
           ...newVal,
           surrender_year: moment(newVal.surrender_year),
-          surrender_time: moment(newVal.surrender_time),
-          };
+          surrender_time: moment(newVal.surrender_time)
+        };
       }
-      
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>
 <style lang="less">
 .ant-modal-body {
   // height: 400px;

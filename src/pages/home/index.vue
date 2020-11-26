@@ -11,10 +11,9 @@ export default {
   name: "Home",
   data() {
     return {
-      systemName: TITLE,
+      systemName: TITLE
     };
   },
-  methods: {
-  },
+  methods: {}
 };
 </script>

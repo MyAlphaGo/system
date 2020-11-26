@@ -17,8 +17,8 @@
             'deptName',
             {
               rules: [{ required: true }],
-              initialValue: renderData.dept_name,
-            },
+              initialValue: renderData.dept_name
+            }
           ]"
         >
         </a-input>
@@ -28,22 +28,20 @@
 </template>
 
 <script>
-import { DeptService as DataService, UserService } from "@/api";
-import { mapState } from "vuex";
-import moment from "moment";
+import { DeptService as DataService } from "@/api";
 export default {
   props: {
     editData: Object,
     parent: Number,
     visible: Boolean,
     onChangeVisible: Function,
-    onSuccess: Function,
+    onSuccess: Function
   },
   data() {
     return {
       userList: [],
       renderData: {},
-      title: "添加部门",
+      title: "添加部门"
     };
   },
   methods: {
@@ -61,7 +59,7 @@ export default {
           } else {
             DataService.editDept({
               ...values,
-              id: this.renderData?.id,
+              id: this.renderData?.id
             }).then(() => {
               if (this.onSuccess) {
                 this.onSuccess();
@@ -84,30 +82,26 @@ export default {
       this.positionList = [];
       this.deptList = [];
       this.form.resetFields();
-    },
+    }
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "form" });
   },
   watch: {
-    visible: function (newVal) {
-      if (newVal) {
-      }
-    },
-    editData: function (newVal) {
+    visible: function() {},
+    editData: function(newVal) {
       if (Object.keys(newVal).length !== 0) {
         this.title = "编辑部门";
         this.renderData = {
-          ...newVal,
+          ...newVal
         };
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>
 <style lang="less">
 .ant-modal-body {
   // height: 400px;

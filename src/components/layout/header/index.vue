@@ -17,7 +17,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import router from '@/router'
+import router from "@/router";
 
 export default {
   name: "Nav",
@@ -25,18 +25,18 @@ export default {
     return {};
   },
   computed: mapState({
-    user: (state) => state.User.user,
+    user: state => state.User.user
   }),
-  beforeCreate(){
-    this.$store.dispatch('User/getLoginInfo')
+  beforeCreate() {
+    this.$store.dispatch("User/getLoginInfo");
   },
   methods: {
     handleMenuClick(e) {
-      if(e.key === 'signOut'){
-        router.push('/login')
+      if (e.key === "signOut") {
+        router.push("/login");
       }
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -47,5 +47,4 @@ export default {
   line-height: 50px;
 }
 </style>
-<style lang="less">
-</style>
+<style lang="less"></style>

@@ -1,7 +1,7 @@
 <template>
   <div class="warpper">
     <div class="header">
-       <slot name="header"></slot>
+      <slot name="header"></slot>
     </div>
     <div class="content">
       <slot></slot>
@@ -11,11 +11,10 @@
 
 <script>
 export default {
-  props:{
+  props: {
     // children
   },
-  mounted(){
-  }
+  mounted() {}
 };
 </script>
 <style lang="less" scoped>

@@ -17,8 +17,8 @@
             'train_name',
             {
               rules: [{ required: true, message: '请输入培训名称！' }],
-              initialValue: renderData.train_name,
-            },
+              initialValue: renderData.train_name
+            }
           ]"
         >
         </a-input>
@@ -29,8 +29,8 @@
             'topic',
             {
               rules: [{ required: true, message: '请输入主题！' }],
-              initialValue: renderData.topic,
-            },
+              initialValue: renderData.topic
+            }
           ]"
         >
         </a-input>
@@ -41,8 +41,8 @@
             'speaker',
             {
               rules: [{ required: true }],
-              initialValue: renderData.speaker || user.user_id,
-            },
+              initialValue: renderData.speaker || user.user_id
+            }
           ]"
         >
           <a-select-option
@@ -60,8 +60,8 @@
           v-decorator="[
             'show_time',
             {
-              initialValue: renderData.show_time,
-            },
+              initialValue: renderData.show_time
+            }
           ]"
         />
       </a-form-item>
@@ -92,8 +92,8 @@
             'description',
             {
               rules: [{ max: 255, message: '不得超过255字' }],
-              initialValue: renderData.description,
-            },
+              initialValue: renderData.description
+            }
           ]"
           :auto-size="{ minRows: 3, maxRows: 5 }"
         >
@@ -112,16 +112,16 @@ export default {
     editData: Object,
     visible: Boolean,
     onChangeVisible: Function,
-    onSuccess: Function,
+    onSuccess: Function
   },
   computed: mapState({
-    user: (state) => state.User.user,
+    user: state => state.User.user
   }),
   data() {
     return {
       userList: [],
       renderData: {},
-      title: "创建培训",
+      title: "创建培训"
     };
   },
   methods: {
@@ -160,31 +160,30 @@ export default {
       this.positionList = [];
       this.deptList = [];
       this.form.resetFields();
-    },
+    }
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "form" });
   },
   watch: {
-    visible: function (newVal) {
+    visible: function(newVal) {
       if (newVal) {
-        UserService.getUserList().then((res) => {
+        UserService.getUserList().then(res => {
           this.userList = res.data?.users || [];
         });
       }
     },
-    editData: function (newVal) {
+    editData: function(newVal) {
       if (Object.keys(newVal).length !== 0) {
         this.title = "修改培训";
       }
       this.renderData = { ...newVal, show_time: new moment(newVal) };
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>
 <style lang="less">
 .ant-modal-body {
   height: 400px;

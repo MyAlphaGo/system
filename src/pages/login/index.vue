@@ -19,8 +19,8 @@
                 'userName',
                 {
                   rules: [{ required: true, message: '请输入用户名！' }],
-                  initialValue: user.name,
-                },
+                  initialValue: user.name
+                }
               ]"
               placeholder="用户名"
             >
@@ -37,8 +37,8 @@
                 'password',
                 {
                   rules: [{ required: true, message: '请输入密码！' }],
-                  initialValue: user.pwd,
-                },
+                  initialValue: user.pwd
+                }
               ]"
               type="password"
               placeholder="密码"
@@ -56,8 +56,8 @@
                 'remember',
                 {
                   valuePropName: 'checked',
-                  initialValue: true,
-                },
+                  initialValue: true
+                }
               ]"
             >
               记住密码
@@ -82,8 +82,8 @@ export default {
       title: TITLE,
       user: {
         name: "",
-        pwd: "",
-      },
+        pwd: ""
+      }
     };
   },
   methods: {
@@ -96,22 +96,22 @@ export default {
             password: values.password,
             remember: values.remember
           });
-          this.form.resetFields(['password']);
+          this.form.resetFields(["password"]);
         }
       });
     },
     beforeLogin({ userName, password, remember }) {
       this.user.name = userName;
       this.user.pwd = password;
-      this.user.remember = remember
-    },
+      this.user.remember = remember;
+    }
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "normal_login" });
   },
   beforeMount() {
     this.$store.dispatch("User/beforeLogin", this.beforeLogin);
-  },
+  }
 };
 </script>
 

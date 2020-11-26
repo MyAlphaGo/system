@@ -1,16 +1,15 @@
-import { UserService } from '@/api'
-import router from '@/router'
-import { message } from 'ant-design-vue'
+import { UserService } from "@/api";
+import router from "@/router";
+import { message } from "ant-design-vue";
 const state = () => ({
   user: {}, // 当前登录用户
   userList: [], // 用户列表
   total: 0,
-  loading: true,
-})
+  loading: true
+});
 
 // getters
-const getters = {
-}
+const getters = {};
 
 // actions
 const actions = {
@@ -20,89 +19,89 @@ const actions = {
       password: params.password
     }).then(res => {
       if (res?.data) {
-        message.success("登录成功！")
-        router.push('/index')
-        commit('saveUserToLoc', {
+        message.success("登录成功！");
+        router.push("/index");
+        commit("saveUserToLoc", {
           userName: params.userName,
           password: params.password,
-          remember: params.remember,
-        })
+          remember: params.remember
+        });
       } else {
-        commit('saveUserToLoc', {
+        commit("saveUserToLoc", {
           userName: params.userName,
-          password: '',
-          remember: false,
-        })
-        message.error('用户名或者密码错误')
-        router.push('/login')
+          password: "",
+          remember: false
+        });
+        message.error("用户名或者密码错误");
+        router.push("/login");
       }
-    })
+    });
   },
   beforeLogin({ commit }, cb) {
-    commit('getUserForLoc', cb)
+    commit("getUserForLoc", cb);
   },
   async createUser(_, params) {
-    await UserService.createUser(params)
-    message.success("创建成功！")
+    await UserService.createUser(params);
+    message.success("创建成功！");
   },
   async editUser(_, params) {
-    const { code } = await UserService.editUser(params)
+    const { code } = await UserService.editUser(params);
     if (code === 0) {
-      message.success("编辑成功！")
+      message.success("编辑成功！");
     } else {
-      message.error("修改出错！")
+      message.error("修改出错！");
     }
   },
   async delUser(_, params) {
-    await UserService.delUser(params)
-    message.success("删除成功！")
+    await UserService.delUser(params);
+    message.success("删除成功！");
   },
   async getLoginInfo({ commit }, params) {
     UserService.getUserInfo(params).then(res => {
-      const user = res?.data
-      commit('saveCurrentUser', user)
-    })
+      const user = res?.data;
+      commit("saveCurrentUser", user);
+    });
   },
   async getUserList({ commit }, params) {
-    commit('changeLoading', true)
+    commit("changeLoading", true);
     await UserService.getUserList(params).then(res => {
-      const userList = res.data?.users || []
-      commit('saveUsers', {
+      const userList = res.data?.users || [];
+      commit("saveUsers", {
         users: userList,
         total: res.data?.total
-      })
-      commit('changeLoading', false)
-    })
+      });
+      commit("changeLoading", false);
+    });
   }
-}
+};
 
 // mutations
 const mutations = {
   saveCurrentUser(state, user) {
-    state.user = user
+    state.user = user;
   },
   changeLoading(state, params) {
-    state.loading = params
+    state.loading = params;
   },
   saveUsers(state, { users, total }) {
-    state.userList = users
-    state.total = total
+    state.userList = users;
+    state.total = total;
   },
   saveUserToLoc(_, loginInfo) {
-    localStorage.setItem('userName', loginInfo.userName)
+    localStorage.setItem("userName", loginInfo.userName);
     if (loginInfo.remember) {
-      localStorage.setItem('password', loginInfo.password)
-      localStorage.setItem('remember', true)
+      localStorage.setItem("password", loginInfo.password);
+      localStorage.setItem("remember", true);
     }
   },
   getUserForLoc(_, cb) {
     cb({
-      userName: localStorage.getItem('userName'),
-      password: localStorage.getItem('password'),
-      remember: localStorage.getItem('remember'),
-    })
+      userName: localStorage.getItem("userName"),
+      password: localStorage.getItem("password"),
+      remember: localStorage.getItem("remember")
+    });
   }
-}
+};
 
 export default {
   namespaced: true,
@@ -110,4 +109,4 @@ export default {
   getters,
   actions,
   mutations
-}
+};

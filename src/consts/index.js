@@ -1,1 +1,1 @@
-export const TITLE = 'XX系统'
+export const TITLE = "XX系统";

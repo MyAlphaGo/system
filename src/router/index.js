@@ -1,107 +1,106 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Layout from '../components/layout'
-import home from '../pages/home'
-import login from '../pages/login'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Layout from "../components/layout";
+import home from "../pages/home";
+import login from "../pages/login";
 
-import UserList from '../pages/user'
-import TrainList from '../pages/train'
-import PositionList from '../pages/rank'
-import WelfareList from '../pages/welfare'
-import Department from '../pages/department'
+import UserList from "../pages/user";
+import TrainList from "../pages/train";
+import PositionList from "../pages/rank";
+import WelfareList from "../pages/welfare";
+import Department from "../pages/department";
 
-import NotFind from '@/components/404'
+import NotFind from "@/components/404";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/login',
+    path: "/login",
     component: login
   },
   {
-    path: '/',
+    path: "/",
     component: Layout,
     children: [
       {
-        name: '主页',
-        path: 'index',
-        component: home,
+        name: "主页",
+        path: "index",
+        component: home
       },
       {
-        name: '人员信息管理',
-        path: 'people',
+        name: "人员信息管理",
+        path: "people",
         component: UserList,
         children: [
           {
-            name: '人员信息列表',
-            path: 'info',
+            name: "人员信息列表",
+            path: "info",
             component: UserList
-          },
+          }
         ]
       },
       {
-        name: '部门信息管理',
-        path: 'department',
+        name: "部门信息管理",
+        path: "department",
         component: Department,
         children: [
           {
-            name: '部门信息树',
-            path: 'info',
+            name: "部门信息树",
+            path: "info",
             component: Department
-          },
+          }
         ]
       },
       {
-        name: '培训管理',
-        path: 'learn',
+        name: "培训管理",
+        path: "learn",
         component: TrainList,
         children: [
           {
-            name: '培训列表',
-            path: 'info',
+            name: "培训列表",
+            path: "info",
             component: TrainList
-          },
+          }
         ]
       },
       {
-        name: '职称管理',
-        path: 'rank',
+        name: "职称管理",
+        path: "rank",
         component: PositionList,
         children: [
           {
-            name: '职称列表',
-            path: 'info',
+            name: "职称列表",
+            path: "info",
             component: PositionList
-          },
+          }
         ]
       },
       {
-        name: '社保管理',
-        path: 'welfare',
+        name: "社保管理",
+        path: "welfare",
         component: WelfareList,
         children: [
           {
-            name: '社保列表',
-            path: 'info',
+            name: "社保列表",
+            path: "info",
             component: WelfareList
-          },
+          }
         ]
       },
       {
-        path: '*',
+        path: "*",
         name: 404,
         component: NotFind
       }
     ]
-  },
-  
-]
+  }
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes
-})
+});
 
-export default router
+export default router;

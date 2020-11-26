@@ -12,7 +12,7 @@
         :columns="cols"
         :dataSource="renderData"
         :scroll="{ y: 'calc(100vh - 270px)' }"
-        :rowKey="(record) => record.id"
+        :rowKey="record => record.id"
         :loading="loading"
         :pagination="pagination"
         @change="handleTableChange"
@@ -23,7 +23,7 @@
               <a-button type="link" v-on:click="editData(record)"
                 >修改</a-button
               >
-              <a-button type="link" v-on:click="delData({id:record.id})"
+              <a-button type="link" v-on:click="delData({ id: record.id })"
                 >删除</a-button
               >
             </div>
@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import TableLayout from "@/components/table";
 import Modal from "./Modal";
 import Auth from "@/components/auth";
@@ -52,39 +51,39 @@ export default {
   components: {
     TableLayout,
     Modal,
-    Auth,
+    Auth
   },
   data() {
     return {
       cols: [
         {
           title: "职位编号",
-          dataIndex: "id",
+          dataIndex: "id"
         },
         {
           title: "职位名称",
-          dataIndex: "position_name",
+          dataIndex: "position_name"
         },
         {
           title: "操作",
           dataIndex: "option",
-          scopedSlots: { customRender: "option" },
-        },
+          scopedSlots: { customRender: "option" }
+        }
       ],
       ModalProps: {
         visible: false,
-        editData: {},
+        editData: {}
       },
       pagination: {},
       renderData: [],
-      loading: false,
+      loading: false
     };
   },
 
   methods: {
     getDataList(params) {
       this.loading = true;
-      DataService.getPositionList(params).then((res) => {
+      DataService.getPositionList(params).then(res => {
         this.renderData = res.data;
         const pagination = { ...this.pagination };
         pagination.total = res.data?.length;
@@ -104,16 +103,16 @@ export default {
     editData(data) {
       this.ModalProps = { visible: true, editData: data };
     },
-    handleTableChange(pagination, filters, sorter) {
+    handleTableChange(pagination) {
       this.getDataList({ page: pagination.current });
     },
     handleVisible(visible) {
       this.ModalProps = { visible, editData: {} };
-    },
+    }
   },
   mounted() {
     this.getDataList();
-  },
+  }
 };
 </script>
 
@@ -131,5 +130,4 @@ export default {
 //   overflow-y: au;
 // }
 </style>
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

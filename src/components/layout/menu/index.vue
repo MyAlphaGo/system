@@ -26,21 +26,24 @@ export default {
         { title: "社保管理", value: "/welfare", type: "pound" },
         { title: "部门管理", value: "/department", type: "team" },
         { title: "考勤管理", value: "/attendance", type: "trademark" },
-        { title: "日志管理", value: "/log", type: "history" },
-      ],
+        { title: "日志管理", value: "/log", type: "history" }
+      ]
     };
   },
   methods: {
-    onSelect(...args) {
-      // console.log(history);
-    },
+    onSelect() {
+      const path = router.history?.current?.path;
+      this.currentPage = this.menuList.map(item => item.value).includes(path)
+        ? [].concat(path)
+        : ["/people/info"];
+    }
   },
-  mounted() {
+  beforeMount() {
     const path = router.history?.current?.path;
-    this.currentPage = this.menuList.map((item) => item.value).includes(path)
-      ? path
-      : "/people/info";
-  },
+    this.currentPage = this.menuList.map(item => item.value).includes(path)
+      ? [].concat(path)
+      : ["/people/info"];
+  }
 };
 </script>
 <style lang="less">
