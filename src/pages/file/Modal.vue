@@ -22,28 +22,25 @@
 </template>
 
 <script>
-import { SocialService as DataService } from "@/api";
-import moment from "moment";
 export default {
   props: {
     editData: Object,
     visible: Boolean,
     onChangeVisible: Function,
-    onSuccess: Function,
+    onSuccess: Function
   },
   data() {
     return {
-      title: "添加文件",
+      title: "添加文件"
     };
   },
   methods: {
     handleOk() {
-      if(this.onSuccess) {
-        this.onSuccess()
+      if (this.onSuccess) {
+        this.onSuccess();
       }
       this.clearState();
       this.onChangeVisible(false);
-      
     },
     handleCancel() {
       this.clearState();
@@ -51,11 +48,10 @@ export default {
     },
     clearState() {
       this.title = "添加文件";
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style lang="less" scoped></style>
-<style lang="less">
-</style>
+<style lang="less"></style>

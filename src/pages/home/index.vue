@@ -23,7 +23,7 @@
         :columns="cols"
         :dataSource="renderData"
         :scroll="{ y: 'calc(100vh - 270px)' }"
-        :rowKey="(record) => record.id"
+        :rowKey="record => record.id"
         :loading="loading"
         :pagination="pagination"
         @change="handleTableChange"
@@ -45,13 +45,13 @@
   </div>
 </template>
 <script>
-import { TITLE, SignIn_Time } from "@/consts";
+import { TITLE } from "@/consts";
 import { mapState } from "vuex";
 import { FileService, UserService } from "@/api";
 export default {
   name: "Home",
   computed: mapState({
-    user: (state) => state.User.user,
+    user: state => state.User.user
   }),
   data() {
     return {
@@ -59,7 +59,7 @@ export default {
       status: {
         signIned: 1,
         lated: 2,
-        notSignIn: 3,
+        notSignIn: 3
       },
       currentStatus: 3,
 
@@ -70,29 +70,29 @@ export default {
           submitter: 1,
           created: 1,
           currentUser: 1,
-          status: 0,
-        },
+          status: 0
+        }
       ],
       pagination: {},
       loading: false,
       cols: [
         {
           title: "提交者",
-          dataIndex: "submitter",
+          dataIndex: "submitter"
         },
         {
           title: "提交时间",
-          dataIndex: "created",
+          dataIndex: "created"
         },
         {
           title: "当前审批人",
-          dataIndex: "currentUser",
+          dataIndex: "currentUser"
         },
         {
           title: "审批状态",
-          dataIndex: "status",
-        },
-      ],
+          dataIndex: "status"
+        }
+      ]
     };
   },
   methods: {
@@ -100,14 +100,14 @@ export default {
       this.currentStatus = signInState;
     },
     signIn() {
-      UserService.signIn().then((res) => {
+      UserService.signIn().then(res => {
         if (res.data) {
           this.checkSignIn(status.signIned);
         }
       });
     },
     getDataList(params = {}) {
-      FileService.getCurrentUserApprove(params).then((res) => {
+      FileService.getCurrentUserApprove(params).then(res => {
         this.renderData = res.data?.approves;
         const pagination = { ...this.pagination };
         pagination.total = res.data?.total;
@@ -115,17 +115,15 @@ export default {
         this.loading = false;
       });
     },
-    handleTableChange() {},
+    handleTableChange() {}
   },
-  watch:{
-    user: function(val,old) {
-      // if(val.checking_status !==old.checking_status) {
-        this.checkSignIn(val.checking_status);
-      // }
+  watch: {
+    user: function(val) {
+      this.checkSignIn(val.checking_status);
     }
   },
-  created(){
-    this.getDataList()
+  created() {
+    this.getDataList();
   }
 };
 </script>

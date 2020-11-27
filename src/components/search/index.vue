@@ -14,13 +14,13 @@
 export default {
   props: {
     title: String,
-    search: Function,
+    search: Function
   },
   methods: {
     handleEnter(value) {
       this.search({ page: 1, search: value });
-    },
-  },
+    }
+  }
 };
 </script>
 <style>

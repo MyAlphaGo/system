@@ -14,7 +14,7 @@
         :columns="cols"
         :dataSource="renderData"
         :scroll="{ y: 'calc(100vh - 270px)' }"
-        :rowKey="(record) => record.id"
+        :rowKey="record => record.id"
         :loading="loading"
         :pagination="pagination"
         @change="handleTableChange"
@@ -55,47 +55,47 @@ export default {
     TableLayout,
     Modal,
     Search,
-    Auth,
+    Auth
   },
   data() {
     return {
       cols: [
         {
           title: "用户名",
-          dataIndex: "user_name",
+          dataIndex: "user_name"
         },
         {
           title: "缴纳年",
-          dataIndex: "surrender_year",
+          dataIndex: "surrender_year"
         },
         {
           title: "缴纳额",
-          dataIndex: "money",
+          dataIndex: "money"
         },
         {
           title: "缴纳时间",
-          dataIndex: "surrender_time",
+          dataIndex: "surrender_time"
         },
         {
           title: "操作",
           dataIndex: "option",
-          scopedSlots: { customRender: "option" },
-        },
+          scopedSlots: { customRender: "option" }
+        }
       ],
       ModalProps: {
         visible: false,
-        editData: {},
+        editData: {}
       },
       pagination: {},
       renderData: [],
-      loading: false,
+      loading: false
     };
   },
 
   methods: {
     getDataList(params) {
       this.loading = true;
-      DataService.getSocialList(params).then((res) => {
+      DataService.getSocialList(params).then(res => {
         this.renderData = res.data?.social_securitys;
         const pagination = { ...this.pagination };
         pagination.total = res.data?.total;
@@ -120,11 +120,11 @@ export default {
     },
     handleVisible(visible) {
       this.ModalProps = { visible, editData: {} };
-    },
+    }
   },
   mounted() {
     this.getDataList();
-  },
+  }
 };
 </script>
 

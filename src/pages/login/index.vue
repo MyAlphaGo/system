@@ -63,7 +63,12 @@
               记住密码
             </a-checkbox>
             <a class="login-form-forgot" href=""> 忘记密码 </a>
-            <a-button html-type="submit" type="primary" @click="login" class="login-form-button">
+            <a-button
+              html-type="submit"
+              type="primary"
+              @click="login"
+              class="login-form-button"
+            >
               登录
             </a-button>
             <a href=""> 注册用户 </a>
@@ -87,7 +92,6 @@ export default {
     };
   },
   methods: {
-    
     login() {
       //登录
       this.form.validateFields((err, values) => {

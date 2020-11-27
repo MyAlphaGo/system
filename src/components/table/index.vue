@@ -35,13 +35,13 @@ export default {
 }
 </style>
 <style lang="less">
-  .contentTable {
-    flex: 1;
-    .ant-table-wrapper {
-      height: 100%;
-      .ant-table-pagination {
-        margin-top: 70px;
-      }
+.contentTable {
+  flex: 1;
+  .ant-table-wrapper {
+    height: 100%;
+    .ant-table-pagination {
+      margin-top: 70px;
     }
   }
+}
 </style>

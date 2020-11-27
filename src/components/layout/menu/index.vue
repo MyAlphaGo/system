@@ -25,20 +25,20 @@ export default {
         { title: "社保管理", value: "/welfare", type: "pound" },
         { title: "部门管理", value: "/department", type: "team" },
         { title: "考勤管理", value: "/attendance", type: "trademark" },
-        { title: "日志管理", value: "/log", type: "history" },
-      ],
+        { title: "日志管理", value: "/log", type: "history" }
+      ]
     };
   },
   methods: {
     onSelect() {
       const path = router.history?.current?.path;
       this.currentPage = [].concat(path);
-    },
+    }
   },
   beforeMount() {
     const path = router.history?.current?.path;
-    this.currentPage =  [].concat(path);
-  },
+    this.currentPage = [].concat(path);
+  }
 };
 </script>
 <style lang="less">

@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "prettier": "prettier -c --write \"**/*\"",
-    "lint": "vue-cli-service lint & tyarn prettier"
+    "format": "vue-cli-service lint & tyarn prettier"
   },
   "dependencies": {
     "ant-design-vue": "^1.7.2",

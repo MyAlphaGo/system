@@ -14,7 +14,7 @@
         :columns="cols"
         :dataSource="renderData"
         :scroll="{ y: 'calc(100vh - 270px)' }"
-        :rowKey="(record) => record.id"
+        :rowKey="record => record.id"
         :loading="loading"
         :pagination="pagination"
         @change="handleTableChange"
@@ -35,38 +35,38 @@ export default {
   components: {
     TableLayout,
     Search,
-    Auth,
+    Auth
   },
   data() {
     return {
       cols: [
         {
           title: "操作者",
-          dataIndex: "create_by",
+          dataIndex: "create_by"
         },
         {
           title: "操作类型",
-          dataIndex: "what_do",
+          dataIndex: "what_do"
         },
         {
           title: "操作时间",
-          dataIndex: "created",
-        },
+          dataIndex: "created"
+        }
       ],
       ModalProps: {
         visible: false,
-        editData: {},
+        editData: {}
       },
       pagination: {},
       renderData: [],
-      loading: false,
+      loading: false
     };
   },
 
   methods: {
     getDataList(params) {
       this.loading = true;
-      DataService.getDataList(params).then((res) => {
+      DataService.getDataList(params).then(res => {
         this.renderData = res.data?.logs;
         const pagination = { ...this.pagination };
         pagination.total = res.data?.total;
@@ -88,11 +88,11 @@ export default {
     },
     handleTableChange(pagination) {
       this.getDataList({ page: pagination.current });
-    },
+    }
   },
   mounted() {
     this.getDataList();
-  },
+  }
 };
 </script>
 

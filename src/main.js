@@ -40,7 +40,7 @@ Vue.use(Radio);
 Vue.use(DatePicker);
 Vue.use(InputNumber);
 Vue.use(Tree);
-Vue.use(Upload)
+Vue.use(Upload);
 
 Vue.config.productionTip = false;
 

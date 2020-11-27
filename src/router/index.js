@@ -9,8 +9,8 @@ import TrainList from "../pages/train";
 import PositionList from "../pages/rank";
 import WelfareList from "../pages/welfare";
 import Department from "../pages/department";
-import FileList from '@/pages/file'
-import LogList from '@/pages/log'
+import FileList from "@/pages/file";
+import LogList from "@/pages/log";
 
 import NotFind from "@/components/404";
 

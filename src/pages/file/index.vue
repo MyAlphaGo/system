@@ -16,7 +16,7 @@
         :columns="cols"
         :dataSource="renderData"
         :scroll="{ y: 'calc(100vh - 270px)' }"
-        :rowKey="(record) => record.id"
+        :rowKey="record => record.id"
         :loading="loading"
         :pagination="pagination"
         @change="handleTableChange"
@@ -73,7 +73,7 @@ export default {
     TableLayout,
     Modal,
     Auth,
-    Search,
+    Search
   },
   data() {
     return {
@@ -82,30 +82,30 @@ export default {
       cols: [
         {
           title: "#",
-          dataIndex: "id",
+          dataIndex: "id"
         },
         {
           title: "文件名",
           dataIndex: "fileName",
-          scopedSlots: { customRender: "path" },
+          scopedSlots: { customRender: "path" }
         },
         {
           title: "上传时间",
-          dataIndex: "createTime",
+          dataIndex: "createTime"
         },
         {
           title: "操作",
           dataIndex: "option",
-          scopedSlots: { customRender: "option" },
-        },
+          scopedSlots: { customRender: "option" }
+        }
       ],
       ModalProps: {
         visible: false,
-        editData: {},
+        editData: {}
       },
       pagination: {},
       renderData: [],
-      loading: false,
+      loading: false
     };
   },
 
@@ -113,7 +113,7 @@ export default {
     getDataList(params) {
       params = { ...params, page: params?.page || 1, limit: 10 };
       this.loading = true;
-      DataService.getFileList(params).then((res) => {
+      DataService.getFileList(params).then(res => {
         this.renderData = res.data?.recordsList;
         const pagination = { ...this.pagination };
         pagination.total = res.data?.total;
@@ -124,9 +124,9 @@ export default {
     pushApprove(file) {
       DataService.createApprove({
         recordsId: file.id,
-        file_name: file.fileName,
+        file_name: file.fileName
       }).then(res => {
-        message.success("提交审批成功！")
+        message.success("提交审批成功！");
       });
     },
     addData() {
@@ -149,11 +149,11 @@ export default {
     },
     handleVisible(visible) {
       this.ModalProps = { visible, editData: {} };
-    },
+    }
   },
   mounted() {
     this.getDataList();
-  },
+  }
 };
 </script>
 

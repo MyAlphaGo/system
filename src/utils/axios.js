@@ -1,8 +1,8 @@
 import axios from "axios";
 // import qs from 'qs'
 import { notification, message } from "ant-design-vue";
-import router from '@/router'
-import { baseURL } from '@/consts'
+import router from "@/router";
+import { baseURL } from "@/consts";
 
 const codeMessage = {
   200: "服务器成功返回请求的数据。",
@@ -51,7 +51,7 @@ Axios.interceptors.response.use(
     if (config.data.code === 29) {
       //特殊判断
       // window.location.href = `${window.location.origin}/login`;
-      router.push('/login')
+      router.push("/login");
       message.success("用户未登录，请先登录");
       return;
     }

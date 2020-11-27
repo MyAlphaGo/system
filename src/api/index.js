@@ -24,9 +24,8 @@ export class UserService {
     return get("/user/all", params);
   }
   static async signIn() {
-    return get('/user/check')
+    return get("/user/check");
   }
-
 }
 
 // 角色相关
@@ -132,24 +131,24 @@ export class FileService {
     return get("/file/list", params);
   }
   static async getCurrentUserApprove(params) {
-    return get('/approve/list', params)
+    return get("/approve/list", params);
   }
   static async detailFile(params) {
-    return get('/file/detail', params)
+    return get("/file/detail", params);
   }
   static async createApprove(params) {
-    return get('/approve/create', params)
+    return get("/approve/create", params);
   }
   static async opApprove(params) {
-    return get('/approve/op', params)
+    return get("/approve/op", params);
   }
   static async getFile(params) {
-    return getBlob(params)
+    return getBlob(params);
   }
 }
 export class LogService {
   static async getDataList(params) {
-    return get('/log/list', params)
+    return get("/log/list", params);
   }
 }
 
