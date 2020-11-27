@@ -11,6 +11,7 @@ import WelfareList from "../pages/welfare";
 import Department from "../pages/department";
 import FileList from "@/pages/file";
 import LogList from "@/pages/log";
+import RecordList from '@/pages/record'
 
 import NotFind from "@/components/404";
 
@@ -99,6 +100,18 @@ const routes = [
             name: "文件列表",
             path: "info",
             component: FileList
+          }
+        ]
+      },
+      {
+        name: "档案管理",
+        path: "record",
+        component: RecordList,
+        children: [
+          {
+            name: "档案列表",
+            path: "info",
+            component: RecordList
           }
         ]
       },

@@ -130,6 +130,9 @@ export class FileService {
   static async getFileList(params) {
     return get("/file/list", params);
   }
+  static async getRecordList(params) {
+    return get('/file/work_list', params)
+  }
   static async getCurrentUserApprove(params) {
     return get("/approve/list", params);
   }

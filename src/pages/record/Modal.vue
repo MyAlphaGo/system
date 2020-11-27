@@ -8,7 +8,7 @@
     <div class="dropbox">
       <a-upload-dragger
         name="filename"
-        action="http://101.37.76.80:9001/os/file/upload"
+        action="http://101.37.76.80:9001/os/file/work_upload"
         :withCredentials="true"
         :multiple="true"
       >

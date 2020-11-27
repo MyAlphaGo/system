@@ -20,25 +20,26 @@ export default {
       menuList: [
         { title: "文件管理", value: "/file", type: "folder" },
         { title: "信息管理", value: "/people/info", type: "user" },
+        { title: "档案管理", value: "/record", type: "inbox" },
         { title: "培训管理", value: "/learn", type: "book" },
         { title: "职称管理", value: "/rank", type: "contacts" },
         { title: "社保管理", value: "/welfare", type: "pound" },
         { title: "部门管理", value: "/department", type: "team" },
         { title: "考勤管理", value: "/attendance", type: "trademark" },
-        { title: "日志管理", value: "/log", type: "history" }
-      ]
+        { title: "日志管理", value: "/log", type: "history" },
+      ],
     };
   },
   methods: {
     onSelect() {
       const path = router.history?.current?.path;
       this.currentPage = [].concat(path);
-    }
+    },
   },
   beforeMount() {
     const path = router.history?.current?.path;
     this.currentPage = [].concat(path);
-  }
+  },
 };
 </script>
 <style lang="less">
