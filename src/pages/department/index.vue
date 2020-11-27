@@ -4,7 +4,7 @@
       <template v-slot:header>
         <div class="flexc filter">
           <div class="flexc"></div>
-          <Auth><a-button v-on:click="addData">添加社保</a-button></Auth>
+          <Auth><a-button v-on:click="addData">添加部门</a-button></Auth>
         </div>
       </template>
 

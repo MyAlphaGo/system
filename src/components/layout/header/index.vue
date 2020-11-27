@@ -3,7 +3,7 @@
     <div>
       <a-dropdown>
         <a-menu slot="overlay" @click="handleMenuClick">
-          <a-menu-item key="info"> <a-icon type="user" />个人信息 </a-menu-item>
+          <a-menu-item key="workbench"> <a-icon type="user" />个人工作台 </a-menu-item>
           <a-menu-item key="signOut">
             <a-icon type="user" />退出登录
           </a-menu-item>
@@ -34,6 +34,9 @@ export default {
     handleMenuClick(e) {
       if (e.key === "signOut") {
         router.push("/login");
+      }
+      if(e.key === 'workbench') {
+        router.push('/')
       }
     }
   }

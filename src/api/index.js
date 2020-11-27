@@ -23,7 +23,10 @@ export class UserService {
   static async getAllUsers(params = {}) {
     return get("/user/all", params);
   }
-  
+  static async signIn() {
+    return get('/user/check')
+  }
+
 }
 
 // 角色相关
@@ -128,10 +131,13 @@ export class FileService {
   static async getFileList(params) {
     return get("/file/list", params);
   }
+  static async getCurrentUserApprove(params) {
+    return get('/approve/list', params)
+  }
   static async detailFile(params) {
     return get('/file/detail', params)
   }
-  static async approveFile(params) {
+  static async createApprove(params) {
     return get('/approve/create', params)
   }
   static async opApprove(params) {
@@ -139,6 +145,11 @@ export class FileService {
   }
   static async getFile(params) {
     return getBlob(params)
+  }
+}
+export class LogService {
+  static async getDataList(params) {
+    return get('/log/list', params)
   }
 }
 

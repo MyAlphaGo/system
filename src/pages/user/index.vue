@@ -4,10 +4,7 @@
       <template v-slot:header>
         <div class="flexc filter">
           <div class="flexc">
-            <span>查询用户： </span>
-            <span
-              ><a-input-search placeholder="还没有做"></a-input-search
-            ></span>
+            <Search title="查询用户" v-bind:search="getUserList" />
           </div>
           <Auth><a-button v-on:click="addUser">添加用户</a-button></Auth>
         </div>
@@ -50,12 +47,14 @@ import { mapState } from "vuex";
 import TableLayout from "@/components/table";
 import UserModal from "./userModal";
 import Auth from "@/components/auth";
+import Search from "@/components/search";
 export default {
   name: "userList",
   components: {
     TableLayout,
     UserModal,
     Auth,
+    Search,
   },
   computed: mapState({
     userList: (state) => state.User.userList,

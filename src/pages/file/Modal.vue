@@ -10,7 +10,6 @@
         name="filename"
         action="http://101.37.76.80:9001/os/file/upload"
         :withCredentials="true"
-        headers
       >
         <p class="ant-upload-drag-icon">
           <a-icon type="inbox" />
@@ -40,7 +39,7 @@ export default {
   methods: {
     handleOk() {
       if(this.onSuccess) {
-        this.handleOk()
+        this.onSuccess()
       }
       this.clearState();
       this.onChangeVisible(false);
@@ -51,9 +50,7 @@ export default {
       this.onChangeVisible(false);
     },
     clearState() {
-      this.renderUser = {};
       this.title = "添加文件";
-      this.form.resetFields();
     },
   },
 };
@@ -61,8 +58,4 @@ export default {
 
 <style lang="less" scoped></style>
 <style lang="less">
-.ant-modal-body {
-  // height: 400px;
-  overflow: auto;
-}
 </style>

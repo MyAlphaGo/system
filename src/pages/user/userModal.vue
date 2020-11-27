@@ -4,6 +4,7 @@
     :visible="visible"
     @ok="handleOk"
     @cancel="handleCancel"
+    class="user"
   >
     <a-form
       :form="form"
@@ -17,8 +18,8 @@
             'user_name',
             {
               rules: [{ required: true, message: '请输入用户名！' }],
-              initialValue: renderUser.user_name
-            }
+              initialValue: renderUser.user_name,
+            },
           ]"
         >
         </a-input>
@@ -29,8 +30,8 @@
             'email',
             {
               rules: [{ required: true, message: '请输入邮箱！' }],
-              initialValue: renderUser.email
-            }
+              initialValue: renderUser.email,
+            },
           ]"
         >
         </a-input>
@@ -40,8 +41,8 @@
           v-decorator="[
             'sex',
             {
-              initialValue: renderUser.sex
-            }
+              initialValue: renderUser.sex,
+            },
           ]"
         >
           <a-radio value="男">男</a-radio>
@@ -53,8 +54,8 @@
           v-decorator="[
             'age',
             {
-              initialValue: renderUser.age
-            }
+              initialValue: renderUser.age,
+            },
           ]"
         >
         </a-input>
@@ -65,8 +66,8 @@
             'dept_id',
             {
               rules: [{ required: true, message: '请选择部门！' }],
-              initialValue: renderUser.dept_id
-            }
+              initialValue: renderUser.dept_id,
+            },
           ]"
         >
           <a-select-option
@@ -84,8 +85,8 @@
             'position_id',
             {
               rules: [{ required: true, message: '请选择职位！' }],
-              initialValue: renderUser.position_id
-            }
+              initialValue: renderUser.position_id,
+            },
           ]"
         >
           <a-select-option
@@ -103,8 +104,8 @@
             'city',
             {
               rules: [{ required: true, message: '请选择城市！' }],
-              initialValue: renderUser.city
-            }
+              initialValue: renderUser.city,
+            },
           ]"
         >
         </a-input>
@@ -115,8 +116,8 @@
             'role_id',
             {
               rules: [{ required: true, message: '请选择角色！' }],
-              initialValue: renderUser.role_id
-            }
+              initialValue: renderUser.role_id,
+            },
           ]"
         >
           <a-select-option
@@ -133,8 +134,8 @@
             'description',
             {
               rules: [{ max: 100, message: '不得超过100字' }],
-              initialValue: renderUser.description
-            }
+              initialValue: renderUser.description,
+            },
           ]"
           :auto-size="{ minRows: 3, maxRows: 5 }"
         >
@@ -152,7 +153,7 @@ export default {
     visible: Boolean,
     onChangeVisible: Function,
     editUser: Object,
-    onSuccess: Function
+    onSuccess: Function,
   },
   data() {
     return {
@@ -172,7 +173,7 @@ export default {
       //   role_id: 1,
       // },
       renderUser: {},
-      title: "创建用户"
+      title: "创建用户",
     };
   },
   methods: {
@@ -190,7 +191,7 @@ export default {
             this.$store
               .dispatch("User/editUser", {
                 ...values,
-                user_id: this.renderUser?.user_id
+                user_id: this.renderUser?.user_id,
               })
               .then(() => {
                 if (this.onSuccess) {
@@ -214,21 +215,21 @@ export default {
       this.positionList = [];
       this.deptList = [];
       this.form.resetFields();
-    }
+    },
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "form" });
   },
   watch: {
-    visible: function(newVal) {
+    visible: function (newVal) {
       if (newVal) {
-        RoleService.getRoleList().then(res => {
+        RoleService.getRoleList().then((res) => {
           this.roleList = res.data || [];
         });
-        PositionService.getPositionList().then(res => {
+        PositionService.getPositionList().then((res) => {
           this.positionList = res.data || [];
           const renderUser = { ...this.renderUser };
-          res.data.find(item => {
+          res.data.find((item) => {
             if (item.position_name === renderUser.position) {
               renderUser.position_id = item.position_id;
               return true;
@@ -236,10 +237,10 @@ export default {
           });
           this.renderUser = renderUser;
         });
-        DeptService.getDeptList().then(res => {
+        DeptService.getDeptList().then((res) => {
           this.deptList = res.data || [];
           const renderUser = { ...this.renderUser };
-          res.data.find(item => {
+          res.data.find((item) => {
             if (item.deptName === renderUser.dept) {
               renderUser.dept_id = item.deptId;
             }
@@ -248,17 +249,23 @@ export default {
         });
       }
     },
-    user: function(newVal) {
+    user: function (newVal) {
       this.renderUser = newVal;
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+</style>
 <style lang="less">
-.ant-modal-body {
-  height: 400px;
-  overflow: auto;
+.user {
+  .ant-modal {
+    margin-top: -30px;
+  }
+  .ant-modal-body {
+    height: 400px;
+    overflow: auto;
+  }
 }
 </style>

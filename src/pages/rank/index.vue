@@ -3,7 +3,9 @@
     <TableLayout>
       <template v-slot:header>
         <div class="flexc filter">
-          <div class="flexc"></div>
+          <div class="flexc">
+            <Search title="查询职位" v-bind:search="getDataList" />
+          </div>
           <Auth><a-button v-on:click="addData">添加职位</a-button></Auth>
         </div>
       </template>
@@ -12,7 +14,7 @@
         :columns="cols"
         :dataSource="renderData"
         :scroll="{ y: 'calc(100vh - 270px)' }"
-        :rowKey="record => record.id"
+        :rowKey="(record) => record.id"
         :loading="loading"
         :pagination="pagination"
         @change="handleTableChange"
@@ -43,6 +45,7 @@
 <script>
 import TableLayout from "@/components/table";
 import Modal from "./Modal";
+import Search from "@/components/search";
 import Auth from "@/components/auth";
 import { PositionService as DataService } from "@/api";
 import { message } from "ant-design-vue";
@@ -51,39 +54,40 @@ export default {
   components: {
     TableLayout,
     Modal,
-    Auth
+    Auth,
+    Search,
   },
   data() {
     return {
       cols: [
         {
           title: "职位编号",
-          dataIndex: "id"
+          dataIndex: "id",
         },
         {
           title: "职位名称",
-          dataIndex: "position_name"
+          dataIndex: "position_name",
         },
         {
           title: "操作",
           dataIndex: "option",
-          scopedSlots: { customRender: "option" }
-        }
+          scopedSlots: { customRender: "option" },
+        },
       ],
       ModalProps: {
         visible: false,
-        editData: {}
+        editData: {},
       },
       pagination: {},
       renderData: [],
-      loading: false
+      loading: false,
     };
   },
 
   methods: {
     getDataList(params) {
       this.loading = true;
-      DataService.getPositionList(params).then(res => {
+      DataService.getPositionList(params).then((res) => {
         this.renderData = res.data;
         const pagination = { ...this.pagination };
         pagination.total = res.data?.length;
@@ -108,11 +112,11 @@ export default {
     },
     handleVisible(visible) {
       this.ModalProps = { visible, editData: {} };
-    }
+    },
   },
   mounted() {
     this.getDataList();
-  }
+  },
 };
 </script>
 

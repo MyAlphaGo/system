@@ -20,7 +20,7 @@ const actions = {
     }).then(res => {
       if (res?.data) {
         message.success("登录成功！");
-        router.push("/index");
+        router.push("/");
         commit("saveUserToLoc", {
           userName: params.userName,
           password: params.password,

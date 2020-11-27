@@ -3,8 +3,12 @@
     <TableLayout>
       <template v-slot:header>
         <div class="flexc filter">
-          <div class="flexc"></div>
-          <Auth><a-button v-on:click="addData">添加文件</a-button></Auth>
+          <div class="flexc">
+            <Search title="搜索文件" v-bind:search="getDataList" />
+          </div>
+          <Auth v-bind:allowRole="auth"
+            ><a-button v-on:click="addData">添加文件</a-button></Auth
+          >
         </div>
       </template>
 
@@ -18,13 +22,19 @@
         @change="handleTableChange"
       >
         <template slot="option" slot-scope="text, record">
-          <Auth>
-            <div class="flexc">
+          <div class="flexc">
+            <Auth>
               <a-button type="link" v-on:click="delData({ id: record.id })"
                 >删除</a-button
-              >
-            </div>
-          </Auth>
+              ></Auth
+            >
+            <a-button
+              @click="pushApprove(record)"
+              type="link"
+              v-if="!record.path"
+              >提交审批</a-button
+            >
+          </div>
         </template>
         <template slot="path" slot-scope="text, record">
           <div class="flexc">
@@ -53,19 +63,22 @@
 import TableLayout from "@/components/table";
 import Modal from "./Modal";
 import Auth from "@/components/auth";
+import Search from "@/components/search";
 import { FileService as DataService } from "@/api";
 import { message } from "ant-design-vue";
-import { baseURL } from "@/consts";
+import { baseURL, fileAuth } from "@/consts";
 export default {
   name: "Train",
   components: {
     TableLayout,
     Modal,
     Auth,
+    Search,
   },
   data() {
     return {
       baseURL: baseURL.slice(0, baseURL.length - 1),
+      auth: fileAuth,
       cols: [
         {
           title: "#",
@@ -106,6 +119,14 @@ export default {
         pagination.total = res.data?.total;
         this.pagination = pagination;
         this.loading = false;
+      });
+    },
+    pushApprove(file) {
+      DataService.createApprove({
+        recordsId: file.id,
+        file_name: file.fileName,
+      }).then(res => {
+        message.success("提交审批成功！")
       });
     },
     addData() {

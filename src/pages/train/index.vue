@@ -3,7 +3,9 @@
     <TableLayout>
       <template v-slot:header>
         <div class="flexc filter">
-          <div class="flexc"></div>
+          <div class="flexc">
+            <Search title="查询培训" v-bind:search="getDataList" />
+          </div>
           <Auth><a-button v-on:click="addData">添加培训</a-button></Auth>
         </div>
       </template>
@@ -12,7 +14,7 @@
         :columns="cols"
         :dataSource="renderData"
         :scroll="{ x: 1400, y: 'calc(100vh - 270px)' }"
-        :rowKey="record => record.id"
+        :rowKey="(record) => record.id"
         :loading="loading"
         :pagination="pagination"
         @change="handleTableChange"
@@ -44,6 +46,7 @@
 import TableLayout from "@/components/table";
 import Modal from "./Modal";
 import Auth from "@/components/auth";
+import Search from "@/components/search";
 import { TrainService as DataService } from "@/api";
 import { message } from "ant-design-vue";
 export default {
@@ -51,30 +54,31 @@ export default {
   components: {
     TableLayout,
     Modal,
-    Auth
+    Auth,
+    Search,
   },
   data() {
     return {
       cols: [
         {
           title: "培训名称",
-          dataIndex: "train_name"
+          dataIndex: "train_name",
         },
         {
           title: "主题",
-          dataIndex: "topic"
+          dataIndex: "topic",
         },
         {
           title: "分享人",
-          dataIndex: "speaker"
+          dataIndex: "speaker",
         },
         {
           title: "分享时间",
-          dataIndex: "show_time"
+          dataIndex: "show_time",
         },
         {
           title: "描述",
-          dataIndex: "description"
+          dataIndex: "description",
         },
         // {
         //   title: "年龄",
@@ -85,23 +89,23 @@ export default {
           dataIndex: "option",
           width: 150,
           fixed: "right",
-          scopedSlots: { customRender: "option" }
-        }
+          scopedSlots: { customRender: "option" },
+        },
       ],
       ModalProps: {
         visible: false,
-        editData: {}
+        editData: {},
       },
       pagination: {},
       renderData: [],
-      loading: false
+      loading: false,
     };
   },
 
   methods: {
     getDataList(params) {
       this.loading = true;
-      DataService.getTrainList({ ...params, limit: 10 }).then(res => {
+      DataService.getTrainList({ ...params, limit: 10 }).then((res) => {
         this.renderData = res.data?.trains;
         const pagination = { ...this.pagination };
         pagination.total = res.data?.total;
@@ -126,11 +130,11 @@ export default {
     },
     handleVisible(visible) {
       this.ModalProps = { visible, editData: {} };
-    }
+    },
   },
   mounted() {
     this.getDataList();
-  }
+  },
 };
 </script>
 

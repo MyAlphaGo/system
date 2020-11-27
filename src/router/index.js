@@ -10,6 +10,7 @@ import PositionList from "../pages/rank";
 import WelfareList from "../pages/welfare";
 import Department from "../pages/department";
 import FileList from '@/pages/file'
+import LogList from '@/pages/log'
 
 import NotFind from "@/components/404";
 
@@ -26,7 +27,7 @@ const routes = [
     children: [
       {
         name: "主页",
-        path: "index",
+        path: "/",
         component: home
       },
       {
@@ -102,6 +103,18 @@ const routes = [
         ]
       },
       {
+        name: "日志管理",
+        path: "log",
+        component: LogList,
+        children: [
+          {
+            name: "日志列表",
+            path: "info",
+            component: LogList
+          }
+        ]
+      },
+      {
         path: "*",
         name: 404,
         component: NotFind
@@ -111,7 +124,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  // mode: "history",
   base: process.env.BASE_URL,
   routes
 });

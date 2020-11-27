@@ -103,8 +103,4 @@ export default {
 
 <style lang="less" scoped></style>
 <style lang="less">
-.ant-modal-body {
-  // height: 400px;
-  overflow: auto;
-}
 </style>

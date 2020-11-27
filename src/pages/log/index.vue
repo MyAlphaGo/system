@@ -4,9 +4,9 @@
       <template v-slot:header>
         <div class="flexc filter">
           <div class="flexc">
-            <Search title="查询社保信息" v-bind:search="getDataList" />
+            <Search title="查询日志信息" v-bind:search="getDataList" />
           </div>
-          <Auth><a-button v-on:click="addData">添加社保</a-button></Auth>
+          <Auth></Auth>
         </div>
       </template>
 
@@ -19,41 +19,21 @@
         :pagination="pagination"
         @change="handleTableChange"
       >
-        <template slot="option" slot-scope="text, record">
-          <Auth>
-            <div class="flexc">
-              <a-button type="link" v-on:click="editData(record)"
-                >修改</a-button
-              >
-              <a-button type="link" v-on:click="delData({ id: record.id })"
-                >删除</a-button
-              >
-            </div>
-          </Auth>
-        </template>
       </a-table>
     </TableLayout>
-    <Modal
-      v-bind:visible="ModalProps.visible"
-      v-bind:editData="ModalProps.editData"
-      v-bind:onChangeVisible="handleVisible"
-      v-bind:onSuccess="getDataList"
-    />
   </div>
 </template>
 
 <script>
 import TableLayout from "@/components/table";
-import Modal from "./Modal";
 import Search from "@/components/search";
 import Auth from "@/components/auth";
-import { SocialService as DataService } from "@/api";
+import { LogService as DataService } from "@/api";
 import { message } from "ant-design-vue";
 export default {
   name: "Train",
   components: {
     TableLayout,
-    Modal,
     Search,
     Auth,
   },
@@ -61,25 +41,16 @@ export default {
     return {
       cols: [
         {
-          title: "用户名",
-          dataIndex: "user_name",
+          title: "操作者",
+          dataIndex: "create_by",
         },
         {
-          title: "缴纳年",
-          dataIndex: "surrender_year",
+          title: "操作类型",
+          dataIndex: "what_do",
         },
         {
-          title: "缴纳额",
-          dataIndex: "money",
-        },
-        {
-          title: "缴纳时间",
-          dataIndex: "surrender_time",
-        },
-        {
-          title: "操作",
-          dataIndex: "option",
-          scopedSlots: { customRender: "option" },
+          title: "操作时间",
+          dataIndex: "created",
         },
       ],
       ModalProps: {
@@ -95,8 +66,8 @@ export default {
   methods: {
     getDataList(params) {
       this.loading = true;
-      DataService.getSocialList(params).then((res) => {
-        this.renderData = res.data?.social_securitys;
+      DataService.getDataList(params).then((res) => {
+        this.renderData = res.data?.logs;
         const pagination = { ...this.pagination };
         pagination.total = res.data?.total;
         this.pagination = pagination;
@@ -117,9 +88,6 @@ export default {
     },
     handleTableChange(pagination) {
       this.getDataList({ page: pagination.current });
-    },
-    handleVisible(visible) {
-      this.ModalProps = { visible, editData: {} };
     },
   },
   mounted() {
