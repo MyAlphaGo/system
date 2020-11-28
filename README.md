@@ -3,27 +3,42 @@
 ## 安装依赖
 
 ```
-yarn install
+tyarn install
 ```
 
 ### 启动服务
 
 ```
-yarn serve
+tyarn serve
 ```
 
 ### 打包
 
 ```
-yarn build
+tyarn build
 ```
 
-### Lints and fixes files
+### 检查并修复代码
 
 ```
-yarn lint
+tyarn lint
 ```
 
-### Customize configuration
+------
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+### 主要目录结构
+
+```
+├── src
+│   ├── api				#接口地址
+│   ├── assets			#资源文件
+│   ├── components		#公共组件
+│   ├── consts			#公共常量（各种静态配置吧） 由于代理无法配置，便将baseURL放到了这里，
+│   └── pages			#页面组件
+|	└── router			#路由
+|	└── store			#vuex状态管理
+|	└── utils			#工具
+├── vue.config.js		#配置文件
+```
