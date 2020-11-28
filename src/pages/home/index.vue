@@ -15,52 +15,71 @@
         <a-button v-else-if="currentStatus === status.notSignIn" @click="signIn"
           >签到</a-button
         >
-        <span class="lated" v-else>今天迟到了哦，明天早点到哦</span>
+        <span class="lated" v-else-if="currentStatus === status.lated"
+          >今天迟到了哦，明天早点到哦
+        </span>
+        <span class="lated" v-else-if="currentStatus === status.temp"
+          >今天迟到了哦，明天早点到哦
+          <a-button @click="signIn">补卡</a-button>
+        </span>
       </div>
     </div>
     <div class="homeContent">
-      <a-table
-        :columns="cols"
-        :dataSource="renderData"
-        :scroll="{ y: 'calc(100vh - 270px)' }"
-        :rowKey="record => record.id"
-        :loading="loading"
-        :pagination="pagination"
-        @change="handleTableChange"
-      >
-        <template slot="option" slot-scope="text, record">
-          <Auth>
-            <div class="flexc">
-              <a-button type="link" v-on:click="editData(record)"
-                >修改</a-button
-              >
-              <a-button type="link" v-on:click="delData({ id: record.id })"
-                >删除</a-button
-              >
+      <a-card :bordered="false" title="审批列表">
+        <a-table
+          :columns="cols"
+          :dataSource="renderData"
+          :scroll="{ y: 'calc(100vh - 270px)' }"
+          :rowKey="(record) => record.id"
+          :loading="loading"
+          :pagination="pagination"
+        >
+          <template slot="option" slot-scope="text, record">
+            <div v-if="approvesFlag">
+              <div v-if="text !== 1">{{ approvesStatus[text] }}</div>
+              <a-button v-else type="link" @click="pushApprove(record)">审批</a-button>
             </div>
-          </Auth>
-        </template>
-      </a-table>
+            <div v-else>
+              {{ approvesStatus[text] }}
+            </div>
+          </template>
+        </a-table>
+      </a-card>
     </div>
+    <Modal
+      v-bind:visible="ModalProps.visible"
+      v-bind:editData="ModalProps.editData"
+      v-bind:onChangeVisible="handleVisible"
+      v-bind:onSuccess="getDataList"
+    />
   </div>
 </template>
 <script>
-import { TITLE } from "@/consts";
+import { TITLE, apporveAuth } from "@/consts";
 import { mapState } from "vuex";
 import { FileService, UserService } from "@/api";
+import Modal from "./Modal";
 export default {
   name: "Home",
   computed: mapState({
-    user: state => state.User.user
+    user: (state) => state.User.user,
   }),
+  components: {
+    Modal,
+  },
   data() {
     return {
       systemName: TITLE,
+      apporveAuth: apporveAuth,
+      approvesFlag: false,
+      approvesStatus: ["通过", "审批中", "审批不通过"],
       status: {
         signIned: 1,
         lated: 2,
-        notSignIn: 3
+        notSignIn: 3,
+        temp: 4,
       },
+
       currentStatus: 3,
 
       renderData: [
@@ -70,29 +89,34 @@ export default {
           submitter: 1,
           created: 1,
           currentUser: 1,
-          status: 0
-        }
+          status: 0,
+        },
       ],
       pagination: {},
       loading: false,
+      ModalProps: {
+        visible: false,
+        editData: {},
+      },
       cols: [
         {
           title: "提交者",
-          dataIndex: "submitter"
+          dataIndex: "submitter",
         },
         {
           title: "提交时间",
-          dataIndex: "created"
+          dataIndex: "created",
         },
         {
           title: "当前审批人",
-          dataIndex: "currentUser"
+          dataIndex: "currentUser",
         },
         {
           title: "审批状态",
-          dataIndex: "status"
-        }
-      ]
+          dataIndex: "status",
+          scopedSlots: { customRender: "option" },
+        },
+      ],
     };
   },
   methods: {
@@ -100,14 +124,14 @@ export default {
       this.currentStatus = signInState;
     },
     signIn() {
-      UserService.signIn().then(res => {
+      UserService.signIn().then((res) => {
         if (res.data) {
           this.checkSignIn(status.signIned);
         }
       });
     },
     getDataList(params = {}) {
-      FileService.getCurrentUserApprove(params).then(res => {
+      FileService.getCurrentUserApprove(params).then((res) => {
         this.renderData = res.data?.approves;
         const pagination = { ...this.pagination };
         pagination.total = res.data?.total;
@@ -115,16 +139,26 @@ export default {
         this.loading = false;
       });
     },
-    handleTableChange() {}
+    handleVisible(v) {
+      this.ModalProps = { visible: v,editData:{} };
+    },
+    pushApprove(file) {
+      this.ModalProps = { visible: true, editData: file };
+    },
+  },
+  mounted(){
+    this.checkSignIn(this.user.checking_status);
+      this.approvesFlag = this.apporveAuth.includes(this.user.role_id);
   },
   watch: {
-    user: function(val) {
+    user: function (val) {
       this.checkSignIn(val.checking_status);
-    }
+      this.approvesFlag = this.apporveAuth.includes(val.role_id);
+    },
   },
   created() {
     this.getDataList();
-  }
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -158,7 +192,14 @@ export default {
     }
   }
   .homeContent {
-    padding: 0 20px 20px;
+    // padding: 0 20px 20px;
+  }
+}
+</style>
+<style lang="less">
+.homeContent {
+  .ant-card-head-title {
+    display: flex;
   }
 }
 </style>

@@ -12,6 +12,7 @@ import Department from "../pages/department";
 import FileList from "@/pages/file";
 import LogList from "@/pages/log";
 import RecordList from '@/pages/record'
+import SignIn from '@/pages/attendance'
 
 import NotFind from "@/components/404";
 
@@ -124,6 +125,18 @@ const routes = [
             name: "日志列表",
             path: "info",
             component: LogList
+          }
+        ]
+      },
+      {
+        name: "考勤管理",
+        path: "attendance",
+        component: SignIn,
+        children: [
+          {
+            name: "考勤列表",
+            path: "info",
+            component: SignIn
           }
         ]
       },

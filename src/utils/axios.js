@@ -52,7 +52,7 @@ Axios.interceptors.response.use(
       //特殊判断
       // window.location.href = `${window.location.origin}/login`;
       router.push("/login");
-      message.success("用户未登录，请先登录");
+      message.warn("用户未登录，请先登录");
       return;
     }
     return { ...config?.data };

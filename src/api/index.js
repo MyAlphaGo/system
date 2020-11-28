@@ -26,6 +26,9 @@ export class UserService {
   static async signIn() {
     return get("/user/check");
   }
+  static async signInList(params) {
+    return get("/user/check_list",params);
+  }
 }
 
 // 角色相关

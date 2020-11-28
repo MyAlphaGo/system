@@ -8,50 +8,43 @@
     <a-form
       :form="form"
       class="form"
-      :label-col="{ span: 5 }"
+      :label-col="{ span: 4 }"
       :wrapper-col="{ span: 19 }"
     >
-      <a-form-item label="部门名称">
-        <a-input
+      <a-form-item label="审批状态">
+        <a-radio-group
           v-decorator="[
-            'deptName',
+            'status',
             {
-              rules: [{ required: true }],
-              initialValue: renderData.dept_name,
+              initialValue: '审批通过',
             },
           ]"
         >
-        </a-input>
+          <a-radio value="审批通过">审批通过</a-radio>
+          <a-radio value="审批不通过">审批不通过</a-radio>
+        </a-radio-group>
       </a-form-item>
-      <a-form-item label="部门负责人">
-        <a-select
+      <a-form-item label="描述">
+        <a-textarea
           v-decorator="[
-            'leaderId',
+            'desc',
             {
-              rules: [{ required: true }],
-              initialValue: renderData.leaderId,
+              rules: [{ max: 255, message: '不得超过255字' }],
             },
           ]"
+          :auto-size="{ minRows: 3, maxRows: 5 }"
         >
-          <a-select-option
-            v-for="item in userList"
-            :key="item.user_id"
-            :value="item.user_id"
-          >
-            {{ item.user_name }}
-          </a-select-option>
-        </a-select>
+        </a-textarea>
       </a-form-item>
     </a-form>
   </a-modal>
 </template>
 
 <script>
-import { DeptService as DataService, UserService } from "@/api";
+import { FileService as DataService, UserService } from "@/api";
 export default {
   props: {
     editData: Object,
-    parent: String,
     visible: Boolean,
     onChangeVisible: Function,
     onSuccess: Function,
@@ -68,25 +61,14 @@ export default {
     handleOk() {
       this.form.validateFields((err, values) => {
         if (!err) {
-          values.parentId = this.parent;
-          if (Object.keys(this.editData).length === 0) {
-            DataService.createDept(values).then(() => {
-              if (this.onSuccess) {
-                this.onSuccess();
-              }
-            });
-          } else {
-            DataService.editDept({
-              ...values,
-              id: this.renderData?.id,
-            }).then(() => {
-              if (this.onSuccess) {
-                this.onSuccess();
-              }
-            });
-          }
-          this.clearState();
-          this.onChangeVisible(false);
+          values.id = this.editData.id;
+          DataService.opApprove(values).then(() => {
+            if (this.onSuccess) {
+              this.onSuccess();
+              this.clearState();
+              this.onChangeVisible(false);
+            }
+          });
         }
       });
     },

@@ -20,7 +20,7 @@ import {
   DatePicker,
   InputNumber,
   Tree,
-  Upload
+  Upload,
 } from "ant-design-vue";
 
 Vue.use(Button);
